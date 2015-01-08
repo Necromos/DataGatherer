@@ -6,7 +6,11 @@ class SurveyController < ApplicationController
   end
 
   def get_self_esteem
-    @self_esteem = SelfEsteem.new personal_datum_id: params[:id]
+    if params[:id]
+      @self_esteem = SelfEsteem.new personal_datum_id: params[:id]
+    else
+      redirect_to :root
+    end
   end
 
   def index

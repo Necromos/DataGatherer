@@ -15,84 +15,86 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :sex, :class => 'control-label' %>
+  <div class="form-group">
+    <%= f.label :sex, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'What sex are you?'  %>
     <div class="controls">
-      <%= f.select :sex, {"Male"=>"Male","Female"=>"Female"}, :class => 'form-control' %>
+      <%= f.select :sex, ["Male","Female"], {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@personal_datum[:sex]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :age, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :age, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:age]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :nationality, :class => 'control-label' %>
     <div class="controls">
-      <%= f.select :nationality, @nationalities, :class => 'form-control' %>
+      <%= f.select :nationality, @nationalities, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@personal_datum[:nationality]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :race, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :race, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:race]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :living_country, :class => 'control-label' %>
     <div class="controls">
-      <%= f.select :living_country, @countries, :class => 'form-control' %>
+      <%= f.select :living_country, @countries, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@personal_datum[:living_country]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :health_issues, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :health_issues, :class => 'form-control' %>
+      <%= f.check_box :health_issues, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:health_issues]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :chronic_diseases, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :chronic_diseases, :class => 'form-control' %>
+      <%= f.check_box :chronic_diseases, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:chronic_diseases]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :smoker, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :smoker, :class => 'form-control' %>
+      <%= f.check_box :smoker, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:smoker]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :alcoholic, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :alcoholic, :class => 'form-control' %>
+      <%= f.check_box :alcoholic, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:alcoholic]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :druggy, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box :druggy, :class => 'form-control' %>
+      <%= f.check_box :druggy, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:druggy]) %>
   </div>
-  <div class="control-group">
+  <div class="form-group">
     <%= f.label :disabled, :class => 'control-label' %>
-    <%= f.check_box :disabled, :class => 'form-control' %>
+    <div class="controls">
+      <%= f.check_box :disabled, :class => 'form-control checkbox-control' %>
+    </div>
     <%= error_span(@personal_datum[:disabled]) %>
   </div>
 
 
-  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= f.submit "Proceed (1/2)", :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
             {:controller => :survey, :action => :index}, :class => 'btn btn-default' %>
 

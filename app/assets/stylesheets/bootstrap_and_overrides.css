@@ -88,3 +88,12 @@ body {
 .warning {
   color: #FF0000;
 }
+
+.checkbox-control {
+  display: block;
+  width: 34px !important;
+}
+
+label {
+  font-size: 24px !important;
+}
