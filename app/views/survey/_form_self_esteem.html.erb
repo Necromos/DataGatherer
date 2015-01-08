@@ -1,0 +1,109 @@
+<%= form_for @self_esteem, :url => { :controller => :survey, :action => :create_self_esteem_for_person}, :html => { :class => "form-horizontal self_esteem" } do |f| %>
+
+    <% if @self_esteem.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@self_esteem.errors.count, "error") %> prohibited this self_esteem from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @self_esteem.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="control-group">
+    <%= f.label :alcohol, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :alcohol, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:alcohol]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :tabacco, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :tabacco, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:tabacco]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :drugs, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :drugs, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:drugs]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :walking_time_per_day, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :walking_time_per_day, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:walking_time_per_day]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :jogging_time_per_day, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :jogging_time_per_day, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:jogging_time_per_day]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :gym_workout_time_per_day, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :gym_workout_time_per_day, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:gym_workout_time_per_day]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :swimming_time_per_day, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :swimming_time_per_day, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:swimming_time_per_day]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :junk_food_per_day, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :junk_food_per_day, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:junk_food_per_day]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :wholesome_food_per_day, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :wholesome_food_per_day, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:wholesome_food_per_day]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :weather, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :weather, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:weather]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :season, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :season, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:season]) %>
+  </div>
+  <div class="control-group">
+    <%= f.label :self_esteem, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :self_esteem, :class => 'form-control' %>
+    </div>
+    <%= error_span(@self_esteem[:self_esteem]) %>
+  </div>
+  <%= f.hidden_field :personal_datum_id, :value => @self_esteem.personal_datum_id %>
+
+
+  <%= f.submit nil, :class => 'btn btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+            {:controller => :survey, :action => :index}, :class => 'btn btn-default' %>
+
+<% end %>
