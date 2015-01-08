@@ -3,7 +3,7 @@
     <% if @personal_datum.errors.any? %>
     <div id="error_expl" class="panel panel-danger">
       <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@personal_datum.errors.count, "error") %> prohibited this personal_datum from being saved:</h3>
+        <h3 class="panel-title">There were <%= pluralize(@personal_datum.errors.count, "error") %> errors in the form, please verify and correct them:</h3>
       </div>
       <div class="panel-body">
         <ul>
@@ -37,44 +37,51 @@
     <%= error_span(@personal_datum[:race]) %>
   </div>
   <div class="control-group">
+    <%= f.label :living_country, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :living_country, :class => 'form-control' %>
+    </div>
+    <%= error_span(@personal_datum[:living_country]) %>
+  </div>
+  <div class="control-group">
     <%= f.label :health_issues, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :health_issues, :class => 'form-control' %>
+      <%= f.check_box :health_issues, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:health_issues]) %>
   </div>
   <div class="control-group">
     <%= f.label :chronic_diseases, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :chronic_diseases, :class => 'form-control' %>
+      <%= f.check_box :chronic_diseases, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:chronic_diseases]) %>
   </div>
   <div class="control-group">
     <%= f.label :smoker, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :smoker, :class => 'form-control' %>
+      <%= f.check_box :smoker, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:smoker]) %>
   </div>
   <div class="control-group">
     <%= f.label :alcoholic, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :alcoholic, :class => 'form-control' %>
+      <%= f.check_box :alcoholic, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:alcoholic]) %>
   </div>
   <div class="control-group">
     <%= f.label :druggy, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :druggy, :class => 'form-control' %>
+      <%= f.check_box :druggy, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:druggy]) %>
   </div>
   <div class="control-group">
     <%= f.label :disabled, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :disabled, :class => 'form-control' %>
+      <%= f.check_box :disabled, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:disabled]) %>
   </div>

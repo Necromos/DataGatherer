@@ -10,7 +10,10 @@ class SurveyController < ApplicationController
   def index
   end
 
-  def show
+  def thank_you
+    if @personal_datum
+      redirect_to :action => 'index'
+    end
   end
 
   def create_person
@@ -24,13 +27,17 @@ class SurveyController < ApplicationController
                                           :alcoholic => personal_datum_params[:alcoholic],
                                           :druggy => personal_datum_params[:druggy],
                                           :disabled => personal_datum_params[:disabled]).first_or_create
-    redirect_to :action => 'get_self_esteem', :id => @personal_datum.id
+    if @personal_datum.valid?
+      redirect_to :action => 'get_self_esteem', :id => @personal_datum.id
+    else
+      render :action => :get_personal_data
+    end
   end
 
   def create_self_esteem_for_person
     @self_esteem = SelfEsteem.new(self_esteem_params)
     if @self_esteem.save
-      redirect_to :action => 'show'
+      redirect_to :action => 'thank_you'
     else
       render :action => :get_self_esteem
     end

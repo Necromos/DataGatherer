@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'survey/get_personal_data'
   get 'survey/get_self_esteem'
   get 'survey/index'
-  get 'survey/show'
+  get 'survey/thank_you'
   post 'survey/create_person'
   post 'survey/create_self_esteem_for_person'
 
