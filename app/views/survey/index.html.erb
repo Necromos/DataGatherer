@@ -1,2 +1,17 @@
-<h1>SurveyController#index</h1>
-<p>Sup!</p>
+<div class="jumbotron">
+  <h1>DataGatherer</h1>
+  <p class="lead"><h2>Dear visitor!</h2><br />
+  Thank you very much for visiting my site! Survey you are about to participate
+  in is really fast and should not take you more than 5 minutes (or even more
+  than 1 if you have really good memory of what you done today). Please be
+  sincere about answers and make them life corresponding as much as possible.</p>
+  <p class="warning">
+    Warning! Some questions may interfere in your private life and sensitive topics
+    if you do not want to answer them then please put lowest score possible.
+    None private data will be gathered so yours privacy is assured.
+  </p>
+  <p>
+    <%= link_to 'Attend Survey',
+              {:controller => :survey, :action => :get_personal_data}, :class => 'btn btn-primary' %>
+  </p>
+</div>
