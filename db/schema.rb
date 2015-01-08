@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150107170227) do
+ActiveRecord::Schema.define(version: 20150108143050) do
 
   create_table "personal_data", force: true do |t|
     t.integer  "age"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150107170227) do
     t.boolean  "disabled"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "sex"
   end
 
   create_table "self_esteems", force: true do |t|

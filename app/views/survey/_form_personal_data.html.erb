@@ -16,6 +16,13 @@
   <% end %>
 
   <div class="control-group">
+    <%= f.label :sex, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :sex, {"Male"=>"Male","Female"=>"Female"}, :class => 'form-control' %>
+    </div>
+    <%= error_span(@personal_datum[:sex]) %>
+  </div>
+  <div class="control-group">
     <%= f.label :age, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :age, :class => 'form-control' %>
@@ -25,7 +32,7 @@
   <div class="control-group">
     <%= f.label :nationality, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :nationality, :class => 'form-control' %>
+      <%= f.select :nationality, @nationalities, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:nationality]) %>
   </div>
@@ -39,7 +46,7 @@
   <div class="control-group">
     <%= f.label :living_country, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :living_country, :class => 'form-control' %>
+      <%= f.select :living_country, @countries, :class => 'form-control' %>
     </div>
     <%= error_span(@personal_datum[:living_country]) %>
   </div>
@@ -80,9 +87,7 @@
   </div>
   <div class="control-group">
     <%= f.label :disabled, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.check_box :disabled, :class => 'form-control' %>
-    </div>
+    <%= f.check_box :disabled, :class => 'form-control' %>
     <%= error_span(@personal_datum[:disabled]) %>
   </div>
 
