@@ -16,21 +16,22 @@
   <% end %>
 
   <div class="form-group">
-    <%= f.label :sex, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'What sex are you?'  %>
+    <%= f.label :sex, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you a man or a woman?'  %>
     <div class="controls">
       <%= f.select :sex, @sex, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@personal_datum[:sex]) %>
   </div>
   <div class="form-group">
-    <%= f.label :age, :class => 'control-label' %>
-    <div class="controls">
+    <%= f.label :age, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How old are you?' %>
+    <div class="controls input-group">
       <%= f.text_field :age, :class => 'form-control' %>
+      <div class="input-group-addon">y.o.</div>
     </div>
     <%= error_span(@personal_datum[:age]) %>
   </div>
   <div class="form-group">
-    <%= f.label :nationality, :class => 'control-label' %>
+    <%= f.label :nationality, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Where are you from?' %>
     <div class="controls">
       <%= f.select :nationality, @nationalities, {}, { :class => 'form-control' } %>
     </div>
@@ -44,49 +45,49 @@
     <%= error_span(@personal_datum[:race]) %>
   </div>
   <div class="form-group">
-    <%= f.label :living_country, :class => 'control-label' %>
+    <%= f.label :living_country, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Where do you live currently?' %>
     <div class="controls">
       <%= f.select :living_country, @countries, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@personal_datum[:living_country]) %>
   </div>
   <div class="form-group">
-    <%= f.label :health_issues, :class => 'control-label' %>
+    <%= f.label :health_issues, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you experiencing any health issues like: asthma, allergies, cancer etc.?' %>
     <div class="controls">
       <%= f.check_box :health_issues, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:health_issues]) %>
   </div>
   <div class="form-group">
-    <%= f.label :chronic_diseases, :class => 'control-label' %>
+    <%= f.label :chronic_diseases, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you fightning with any chronic disease?' %>
     <div class="controls">
       <%= f.check_box :chronic_diseases, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:chronic_diseases]) %>
   </div>
   <div class="form-group">
-    <%= f.label :smoker, :class => 'control-label' %>
+    <%= f.label :smoker, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you smoking Tobacco?' %>
     <div class="controls">
       <%= f.check_box :smoker, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:smoker]) %>
   </div>
   <div class="form-group">
-    <%= f.label :alcoholic, :class => 'control-label' %>
+    <%= f.label :alcoholic, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Do you have any self-control alcohol issues?' %>
     <div class="controls">
       <%= f.check_box :alcoholic, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:alcoholic]) %>
   </div>
   <div class="form-group">
-    <%= f.label :druggy, :class => 'control-label' %>
+    <%= f.label :druggy, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Do you take drugs (weed, heroine, etc.)?' %>
     <div class="controls">
       <%= f.check_box :druggy, :class => 'form-control checkbox-control' %>
     </div>
     <%= error_span(@personal_datum[:druggy]) %>
   </div>
   <div class="form-group">
-    <%= f.label :disabled, :class => 'control-label' %>
+    <%= f.label :disabled, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you disabled?' %>
     <div class="controls">
       <%= f.check_box :disabled, :class => 'form-control checkbox-control' %>
     </div>
