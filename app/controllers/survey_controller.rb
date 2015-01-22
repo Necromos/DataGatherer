@@ -1,12 +1,14 @@
 class SurveyController < ApplicationController
   def get_personal_data
     @personal_datum = PersonalDatum.new
-    @sex = ["Male","Female"]
-    @nationalities = ["Afghan","Albanian","Algerian","Andorran","Angolan","Argentinian","Armenian","Australian","Austrian","Azerbaijani","Bahamian","Bahraini","Bangladeshi","Barbadian","Belarusan","Belgian","Belizean","Beninese","Bhutanese","Bolivian","Bosnian","Botswanan","Brazilian","British","Bruneian","Bulgarian","Burkinese","Burmese","Burundian","Cambodian","Cameroonian","Canadian","Cape Verdean","Chadian","Chilean","Chinese","Colombian","Congolese","Costa Rican","Croatian","Cuban","Cypriot","Czech","Danish","Djiboutian","Dominican","Dominican","Ecuadorean","Egyptian","Salvadorean","English","Eritrean","Estonian","Ethiopian","Fijian","Finnish","French","Gabonese","Gambian","Georgian","German","Ghanaian","Greek","Grenadian","Guatemalan","Guinean","Guyanese","Haitian","Dutch","Honduran","Hungarian","Icelandic","Indian","Indonesian","Iranian","Iraqi","Irish","Italian","Jamaican","Japanese","Jordanian","Kazakh","Kenyan","Kuwaiti","Laotian","Latvian","Lebanese","Liberian","Libyan","Lithuanian","Macedonian","Madagascan","Malawian","Malaysian","Maldivian","Malian","Maltese","Mauritanian","Mauritian","Mexican","Moldovan","Monégasque or Monacan","Mongolian","Montenegrin","Moroccan","Mozambican","Namibian","Nepalese","Dutch","New Zealand","Nicaraguan","Nigerien","Nigerian","North Korean","Norwegian","Omani","Pakistani","Panamanian","Guinean","Paraguayan","Peruvian","Philippine","Polish","Portuguese","Qatari","Romanian","Russian","Rwandan","Saudi","Scottish","Senegalese","Serbian","Seychellois","Sierra Leonian","Singaporean","Slovak","Slovenian","Somali","South African","South Korean","Spanish","Sri Lankan","Sudanese","Surinamese","Swazi","Swedish","Swiss","Syrian","Taiwanese","Tadjik","Tanzanian","Thai","Togolese","Trinidadian Tobagan/Tobagonian","Tunisian","Turkish","Turkoman","Tuvaluan","Ugandan","Ukrainian","Emirati","British","US","Uruguayan","Uzbek","Vanuatuan","Venezuelan","Vietnamese","Welsh","Western Samoan","Yemeni","Yugoslav","Zaïrean","Zambian","Zimbabwean"]
-    @countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia-Herzegovina","Botswana","Brazil","Britain","Brunei","Bulgaria","Burkina","Burma (official nameMyanmar)","Burundi","Cambodia","Cameroon","Canada","Cape Verde Islands","Chad","Chile","China","Colombia","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","England","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia"," the","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guyana","Haiti","Holland (alsoNetherlands)","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland"," Republic of","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Laos","Latvia","Lebanon","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar see Burma","Namibia","Nepal","Netherlands"," the (seeHolland)","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Panama","Papua New Guinea","Paraguay","Peru","the Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saudi Arabia","Scotland","Senegal","Serbia","Seychelles"," the","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates (UAE)","United Kingdom (UK)","United States of America (USA)","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Wales","Western Samoa","Yemen","Yugoslavia","Zaire","Zambia","Zimbabwe"]
+    sex
+    nationalities
+    countries
   end
 
   def get_self_esteem
+    weather
+    seasons
     if params[:id]
       @self_esteem = SelfEsteem.new personal_datum_id: params[:id]
     else
@@ -24,9 +26,9 @@ class SurveyController < ApplicationController
   end
 
   def create_person
-    @nationalities = ["Afghan","Albanian","Algerian","Andorran","Angolan","Argentinian","Armenian","Australian","Austrian","Azerbaijani","Bahamian","Bahraini","Bangladeshi","Barbadian","Belarusan","Belgian","Belizean","Beninese","Bhutanese","Bolivian","Bosnian","Botswanan","Brazilian","British","Bruneian","Bulgarian","Burkinese","Burmese","Burundian","Cambodian","Cameroonian","Canadian","Cape Verdean","Chadian","Chilean","Chinese","Colombian","Congolese","Costa Rican","Croatian","Cuban","Cypriot","Czech","Danish","Djiboutian","Dominican","Dominican","Ecuadorean","Egyptian","Salvadorean","English","Eritrean","Estonian","Ethiopian","Fijian","Finnish","French","Gabonese","Gambian","Georgian","German","Ghanaian","Greek","Grenadian","Guatemalan","Guinean","Guyanese","Haitian","Dutch","Honduran","Hungarian","Icelandic","Indian","Indonesian","Iranian","Iraqi","Irish","Italian","Jamaican","Japanese","Jordanian","Kazakh","Kenyan","Kuwaiti","Laotian","Latvian","Lebanese","Liberian","Libyan","Lithuanian","Macedonian","Madagascan","Malawian","Malaysian","Maldivian","Malian","Maltese","Mauritanian","Mauritian","Mexican","Moldovan","Monégasque or Monacan","Mongolian","Montenegrin","Moroccan","Mozambican","Namibian","Nepalese","Dutch","New Zealand","Nicaraguan","Nigerien","Nigerian","North Korean","Norwegian","Omani","Pakistani","Panamanian","Guinean","Paraguayan","Peruvian","Philippine","Polish","Portuguese","Qatari","Romanian","Russian","Rwandan","Saudi","Scottish","Senegalese","Serbian","Seychellois","Sierra Leonian","Singaporean","Slovak","Slovenian","Somali","South African","South Korean","Spanish","Sri Lankan","Sudanese","Surinamese","Swazi","Swedish","Swiss","Syrian","Taiwanese","Tadjik","Tanzanian","Thai","Togolese","Trinidadian Tobagan/Tobagonian","Tunisian","Turkish","Turkoman","Tuvaluan","Ugandan","Ukrainian","Emirati","British","US","Uruguayan","Uzbek","Vanuatuan","Venezuelan","Vietnamese","Welsh","Western Samoan","Yemeni","Yugoslav","Zaïrean","Zambian","Zimbabwean"]
-    @countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia-Herzegovina","Botswana","Brazil","Britain","Brunei","Bulgaria","Burkina","Burma (official nameMyanmar)","Burundi","Cambodia","Cameroon","Canada","Cape Verde Islands","Chad","Chile","China","Colombia","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","England","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia"," the","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guyana","Haiti","Holland (alsoNetherlands)","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland"," Republic of","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Laos","Latvia","Lebanon","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar see Burma","Namibia","Nepal","Netherlands"," the (seeHolland)","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Panama","Papua New Guinea","Paraguay","Peru","the Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saudi Arabia","Scotland","Senegal","Serbia","Seychelles"," the","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates (UAE)","United Kingdom (UK)","United States of America (USA)","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Wales","Western Samoa","Yemen","Yugoslavia","Zaire","Zambia","Zimbabwe"]
-    @sex = ["Male","Female"]
+    nationalities
+    countries
+    sex
     @personal_datum = PersonalDatum.where(:sex => personal_datum_params[:sex],
                                           :age => personal_datum_params[:age],
                                           :nationality => personal_datum_params[:nationality],
@@ -47,7 +49,10 @@ class SurveyController < ApplicationController
 
   def create_self_esteem_for_person
     @self_esteem = SelfEsteem.new(self_esteem_params)
-    if @self_esteem.save
+    weather
+    seasons
+    if @self_esteem.valid?
+      @self_esteem.save
       redirect_to :action => 'thank_you'
     else
       render :action => :get_self_esteem
@@ -55,6 +60,26 @@ class SurveyController < ApplicationController
   end
 
   private
+
+    def weather
+      @weather = ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
+    end
+
+    def sex
+      @sex = ["Male","Female"]
+    end
+
+    def nationalities
+      @nationalities = ["Afghan","Albanian","Algerian","Andorran","Angolan","Argentinian","Armenian","Australian","Austrian","Azerbaijani","Bahamian","Bahraini","Bangladeshi","Barbadian","Belarusan","Belgian","Belizean","Beninese","Bhutanese","Bolivian","Bosnian","Botswanan","Brazilian","British","Bruneian","Bulgarian","Burkinese","Burmese","Burundian","Cambodian","Cameroonian","Canadian","Cape Verdean","Chadian","Chilean","Chinese","Colombian","Congolese","Costa Rican","Croatian","Cuban","Cypriot","Czech","Danish","Djiboutian","Dominican","Dominican","Ecuadorean","Egyptian","Salvadorean","English","Eritrean","Estonian","Ethiopian","Fijian","Finnish","French","Gabonese","Gambian","Georgian","German","Ghanaian","Greek","Grenadian","Guatemalan","Guinean","Guyanese","Haitian","Dutch","Honduran","Hungarian","Icelandic","Indian","Indonesian","Iranian","Iraqi","Irish","Italian","Jamaican","Japanese","Jordanian","Kazakh","Kenyan","Kuwaiti","Laotian","Latvian","Lebanese","Liberian","Libyan","Lithuanian","Macedonian","Madagascan","Malawian","Malaysian","Maldivian","Malian","Maltese","Mauritanian","Mauritian","Mexican","Moldovan","Monégasque or Monacan","Mongolian","Montenegrin","Moroccan","Mozambican","Namibian","Nepalese","Dutch","New Zealand","Nicaraguan","Nigerien","Nigerian","North Korean","Norwegian","Omani","Pakistani","Panamanian","Guinean","Paraguayan","Peruvian","Philippine","Polish","Portuguese","Qatari","Romanian","Russian","Rwandan","Saudi","Scottish","Senegalese","Serbian","Seychellois","Sierra Leonian","Singaporean","Slovak","Slovenian","Somali","South African","South Korean","Spanish","Sri Lankan","Sudanese","Surinamese","Swazi","Swedish","Swiss","Syrian","Taiwanese","Tadjik","Tanzanian","Thai","Togolese","Trinidadian Tobagan/Tobagonian","Tunisian","Turkish","Turkoman","Tuvaluan","Ugandan","Ukrainian","Emirati","British","US","Uruguayan","Uzbek","Vanuatuan","Venezuelan","Vietnamese","Welsh","Western Samoan","Yemeni","Yugoslav","Zaïrean","Zambian","Zimbabwean"]
+    end
+
+    def countries
+      @countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Argentina","Armenia","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bhutan","Bolivia","Bosnia-Herzegovina","Botswana","Brazil","Britain","Brunei","Bulgaria","Burkina","Burma (official nameMyanmar)","Burundi","Cambodia","Cameroon","Canada","Cape Verde Islands","Chad","Chile","China","Colombia","Congo","Costa Rica","Croatia","Cuba","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","England","Eritrea","Estonia","Ethiopia","Fiji","Finland","France","Gabon","Gambia"," the","Georgia","Germany","Ghana","Greece","Grenada","Guatemala","Guinea","Guyana","Haiti","Holland (alsoNetherlands)","Honduras","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland"," Republic of","Italy","Jamaica","Japan","Jordan","Kazakhstan","Kenya","Kuwait","Laos","Latvia","Lebanon","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Mauritania","Mauritius","Mexico","Moldova","Monaco","Mongolia","Montenegro","Morocco","Mozambique","Myanmar see Burma","Namibia","Nepal","Netherlands"," the (seeHolland)","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Panama","Papua New Guinea","Paraguay","Peru","the Philippines","Poland","Portugal","Qatar","Romania","Russia","Rwanda","Saudi Arabia","Scotland","Senegal","Serbia","Seychelles"," the","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","Spain","Sri Lanka","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Togo","Trinidad and Tobago","Tunisia","Turkey","Turkmenistan","Tuvalu","Uganda","Ukraine","United Arab Emirates (UAE)","United Kingdom (UK)","United States of America (USA)","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Wales","Western Samoa","Yemen","Yugoslavia","Zaire","Zambia","Zimbabwe"]
+    end
+
+    def seasons
+      @seasons = ["Spring", "Summer", "Autumn", "Winter"]
+    end
 
     def set_personal_datum
       @personal_datum = PersonalDatum.find(params[:id])
