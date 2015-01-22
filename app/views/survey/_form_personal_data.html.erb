@@ -18,7 +18,7 @@
   <div class="form-group">
     <%= f.label :sex, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'What sex are you?'  %>
     <div class="controls">
-      <%= f.select :sex, ["Male","Female"], {}, { :class => 'form-control' } %>
+      <%= f.select :sex, @sex, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@personal_datum[:sex]) %>
   </div>
