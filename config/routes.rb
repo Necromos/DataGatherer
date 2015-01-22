@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'survey/get_personal_data'
-  get 'survey/get_self_esteem'
+  get 'survey/context', to: 'survey#get_personal_data'
+  get 'survey/selfesteem/:id', to: 'survey#get_self_esteem'
   get 'survey/index'
   get 'survey/thank_you'
   post 'survey/create_person'
