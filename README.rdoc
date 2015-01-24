@@ -1,3 +1,0 @@
-== DataGatherer
-
-Aplikacja zbierająca dane na temat czynności które wykonywali ankietowani oraz ich samopoczucia.
