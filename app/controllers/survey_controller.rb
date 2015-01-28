@@ -29,17 +29,20 @@ class SurveyController < ApplicationController
     nationalities
     countries
     sex
-    @personal_datum = PersonalDatum.where(:sex => personal_datum_params[:sex],
-                                          :age => personal_datum_params[:age],
-                                          :nationality => personal_datum_params[:nationality],
-                                          :living_country => personal_datum_params[:living_country],
-                                          :health_issues => personal_datum_params[:health_issues],
-                                          :chronic_diseases => personal_datum_params[:chronic_diseases],
-                                          :smoker => personal_datum_params[:smoker],
-                                          :alcoholic => personal_datum_params[:alcoholic],
-                                          :druggy => personal_datum_params[:druggy],
-                                          :disabled => personal_datum_params[:disabled]).first_or_create
-    if @personal_datum.valid?
+    @personal_datum = PersonalDatum.where(sex: personal_datum_params[:sex],
+                                          age: personal_datum_params[:age],
+                                          nationality: personal_datum_params[:nationality],
+                                          living_country: personal_datum_params[:living_country],
+                                          health_issues: to_boolean(personal_datum_params[:health_issues]),
+                                          chronic_diseases: to_boolean(personal_datum_params[:chronic_diseases]),
+                                          smoker: to_boolean(personal_datum_params[:smoker]),
+                                          alcoholic: to_boolean(personal_datum_params[:alcoholic]),
+                                          druggy: to_boolean(personal_datum_params[:druggy]),
+                                          disabled: to_boolean(personal_datum_params[:disabled])).first
+    if @personal_datum.nil?
+      @personal_datum = PersonalDatum.new personal_datum_params
+    end
+    if @personal_datum.valid? && @personal_datum.save
       redirect_to :action => 'get_self_esteem', :id => @personal_datum.id
     else
       render :action => :get_personal_data
@@ -47,11 +50,10 @@ class SurveyController < ApplicationController
   end
 
   def create_self_esteem_for_person
-    @self_esteem = SelfEsteem.new(self_esteem_params)
+    @self_esteem = SelfEsteem.new self_esteem_params
     weather
     seasons
-    if @self_esteem.valid?
-      @self_esteem.save
+    if @self_esteem.valid? && @self_esteem.save
       redirect_to :action => 'thank_you'
     else
       render :action => :get_self_esteem
@@ -78,6 +80,10 @@ class SurveyController < ApplicationController
 
     def seasons
       @seasons = ["Spring", "Summer", "Autumn", "Winter"]
+    end
+
+    def to_boolean(str)
+      str == 'true'
     end
 
     def set_personal_datum

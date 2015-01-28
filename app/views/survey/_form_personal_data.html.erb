@@ -47,42 +47,42 @@
   <div class="form-group">
     <%= f.label :health_issues, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you experiencing any health issues like: asthma, allergies, cancer etc.?' %>
     <div class="controls">
-      <%= f.check_box :health_issues, :class => 'form-control checkbox-control' %>
+      <%= f.check_box :health_issues, {:class => 'form-control checkbox-control'},"true","false"  %>
     </div>
     <%= error_span(@personal_datum[:health_issues]) %>
   </div>
   <div class="form-group">
     <%= f.label :chronic_diseases, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you fightning with any chronic disease?' %>
     <div class="controls">
-      <%= f.check_box :chronic_diseases, :class => 'form-control checkbox-control' %>
+      <%= f.check_box :chronic_diseases, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
     <%= error_span(@personal_datum[:chronic_diseases]) %>
   </div>
   <div class="form-group">
     <%= f.label :smoker, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you smoking Tobacco?' %>
     <div class="controls">
-      <%= f.check_box :smoker, :class => 'form-control checkbox-control' %>
+      <%= f.check_box :smoker, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
     <%= error_span(@personal_datum[:smoker]) %>
   </div>
   <div class="form-group">
     <%= f.label :alcoholic, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Do you have any self-control alcohol issues?' %>
     <div class="controls">
-      <%= f.check_box :alcoholic, :class => 'form-control checkbox-control' %>
+      <%= f.check_box :alcoholic, {:class => 'form-control checkbox-control'},"true","false"%>
     </div>
     <%= error_span(@personal_datum[:alcoholic]) %>
   </div>
   <div class="form-group">
     <%= f.label :druggy, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Do you take drugs (weed, heroine, etc.)?' %>
     <div class="controls">
-      <%= f.check_box :druggy, :class => 'form-control checkbox-control' %>
+      <%= f.check_box :druggy, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
     <%= error_span(@personal_datum[:druggy]) %>
   </div>
   <div class="form-group">
     <%= f.label :disabled, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Are you disabled?' %>
     <div class="controls">
-      <%= f.check_box :disabled, :class => 'form-control checkbox-control' %>
+      <%= f.check_box :disabled, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
     <%= error_span(@personal_datum[:disabled]) %>
   </div>
