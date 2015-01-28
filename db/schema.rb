@@ -11,12 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108143050) do
+ActiveRecord::Schema.define(version: 20150128151312) do
 
   create_table "personal_data", force: true do |t|
     t.integer  "age"
     t.string   "nationality"
-    t.string   "race"
     t.string   "living_country"
     t.boolean  "health_issues"
     t.boolean  "chronic_diseases"

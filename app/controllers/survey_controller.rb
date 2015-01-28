@@ -32,7 +32,6 @@ class SurveyController < ApplicationController
     @personal_datum = PersonalDatum.where(:sex => personal_datum_params[:sex],
                                           :age => personal_datum_params[:age],
                                           :nationality => personal_datum_params[:nationality],
-                                          :race => personal_datum_params[:race],
                                           :living_country => personal_datum_params[:living_country],
                                           :health_issues => personal_datum_params[:health_issues],
                                           :chronic_diseases => personal_datum_params[:chronic_diseases],
@@ -86,7 +85,7 @@ class SurveyController < ApplicationController
     end
 
     def personal_datum_params
-      params.require(:personal_datum).permit(:sex, :age, :nationality, :race, :living_country, :health_issues, :chronic_diseases, :smoker, :alcoholic, :druggy, :disabled)
+      params.require(:personal_datum).permit(:sex, :age, :nationality, :living_country, :health_issues, :chronic_diseases, :smoker, :alcoholic, :druggy, :disabled)
     end
 
     def set_self_esteem
