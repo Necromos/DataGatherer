@@ -109,7 +109,7 @@
     <%= error_span(@self_esteem[:self_esteem]) %>
   </div>
   <%= f.hidden_field :personal_datum_id, :value => @self_esteem.personal_datum_id %>
-
+  <br />
 
   <%= f.submit "Accept (2/2)", :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
