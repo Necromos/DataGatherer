@@ -3,8 +3,8 @@ Rails.application.routes.draw do
   get 'survey/selfesteem/:id', to: 'survey#get_self_esteem'
   get 'survey/index'
   get 'survey/thank_you'
-  post 'survey/create_person'
-  post 'survey/create_self_esteem_for_person'
+  post 'survey/context', to: 'survey#create_person'
+  post 'survey/selfesteem/:id', to: 'survey#create_self_esteem_for_person'
 
   root 'survey#index'
   # The priority is based upon order of creation: first created -> highest priority.
