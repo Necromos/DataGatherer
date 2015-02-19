@@ -91,7 +91,7 @@ class SurveyController < ApplicationController
     end
 
     def personal_datum_params
-      params.require(:personal_datum).permit(:sex, :age, :nationality, :living_country, :health_issues, :chronic_diseases, :smoker, :alcoholic, :druggy, :disabled)
+      params.require(:personal_datum).permit(:sex, :age, :nationality, :living_country, :health_issues, :chronic_diseases, :smoker, :alcoholic, :druggy, :disabled, :psychotropic)
     end
 
     def set_self_esteem
