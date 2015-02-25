@@ -20,9 +20,8 @@ class SurveyController < ApplicationController
   end
 
   def thank_you
-    if @personal_datum
-      redirect_to :action => 'index'
-    end
+    offset = rand(FunnyStuff.count)
+    @funny_stuff = FunnyStuff.offset(offset).first
   end
 
   def create_person
@@ -31,7 +30,7 @@ class SurveyController < ApplicationController
     sex
     @personal_datum = PersonalDatum.where(sex: personal_datum_params[:sex],
                                           age: personal_datum_params[:age],
-                                          psychotropic: peronal_datum_params[:psychotropic],
+                                          psychotropic: personal_datum_params[:psychotropic],
                                           nationality: personal_datum_params[:nationality],
                                           living_country: personal_datum_params[:living_country],
                                           health_issues: to_boolean(personal_datum_params[:health_issues]),
