@@ -4,9 +4,9 @@
     Have a nice day! :)
   </p>
   <p>
-    <h2>Here! Take this kitty with you!</h2>
+    <h2>Here! Take this picture with you!</h2>
   </p>
   <p>
-    <%= image_tag(@funny_stuff.name, class: 'goodbyeImage')%>
+    <%= image_tag(@funny_stuff.name, class: 'goodbyeImage', alt: 'Source: '+@funny_stuff.source)%>
   </p>
 </div>
