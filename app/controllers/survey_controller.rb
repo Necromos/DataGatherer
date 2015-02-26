@@ -20,6 +20,10 @@ class SurveyController < ApplicationController
   end
 
   def thank_you
+    if cookies[:filled].nil? || !cookies[:seen].nil?
+      redirect_to :action => 'index'
+    end
+    cookies[:seen] = {value: "yup", expires: (Time.new.seconds_until_end_of_day).seconds.from_now }
     offset = rand(FunnyStuff.count)
     @funny_stuff = FunnyStuff.offset(offset).first
   end
@@ -54,6 +58,7 @@ class SurveyController < ApplicationController
     weather
     seasons
     if @self_esteem.valid? && @self_esteem.save
+      cookies[:filled] = {value: "thanks", expires: (Time.new.seconds_until_end_of_day).seconds.from_now }
       redirect_to :action => 'thank_you'
     else
       render :action => :get_self_esteem
