@@ -72,7 +72,7 @@
     <%= error_span(@self_esteem[:swimming_time_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label "Junk food today", :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many unhealthy meals did you had today?' %>
+    <%= f.label "Junk food today", :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many unhealthy meals did you have today?' %>
     <div class="controls input-group">
       <%= f.text_field :junk_food_per_day, :class => 'form-control' %>
       <div class="input-group-addon">meals/today</div>
@@ -80,7 +80,7 @@
     <%= error_span(@self_esteem[:junk_food_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label "Healthy food today", :class => 'control-label' %>
+    <%= f.label "Healthy food today", :class => 'control-label', 'data-placement' => 'right', 'title' => 'How many healthy meals did you have today?' %>
     <div class="controls input-group">
       <%= f.text_field :wholesome_food_per_day, :class => 'form-control' %>
       <div class="input-group-addon">meals/today</div>
@@ -88,21 +88,21 @@
     <%= error_span(@self_esteem[:wholesome_food_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label "Weather today", :class => 'control-label' %>
+    <%= f.label "Weather today", :class => 'control-label', 'data-placement' => 'right', 'title' => 'How would you descibe weather today?' %>
     <div class="controls">
       <%= f.select :weather, @weather, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@self_esteem[:weather]) %>
   </div>
   <div class="control-group">
-    <%= f.label "Current season", :class => 'control-label' %>
+    <%= f.label "Current season", :class => 'control-label', 'data-placement' => 'right', 'title' => 'Current season of the year?' %>
     <div class="controls">
       <%= f.select :season, @seasons, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@self_esteem[:season]) %>
   </div>
   <div class="control-group">
-    <%= f.label :self_esteem, :class => 'control-label' %>
+    <%= f.label :self_esteem, :class => 'control-label', 'data-placement' => 'right', 'title' => 'In scale from 1 to 10 how do you describe your self esteem today?' %>
     <div class="controls">
       <%= f.select :self_esteem, 1..10, {}, { :class => 'form-control' } %>
     </div>
