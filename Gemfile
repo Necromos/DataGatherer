@@ -16,6 +16,10 @@ gem 'twitter-bootstrap-rails'
 gem 'puma'
 gem 'simple_form'
 
+group :production do
+  gem 'pg'
+end
+
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
