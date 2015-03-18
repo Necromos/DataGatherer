@@ -1,3 +1,3 @@
 #! /bin/bash
 killall -9 ruby
-nohup rails -e production -p 32000 &
+nohup rails s -e production -p 32000 &
