@@ -1,4 +1,4 @@
-<%= form_for @self_esteem, :url => { :controller => :survey, :action => :create_self_esteem_for_person}, :html => { :class => "form-horizontal self_esteem" } do |f| %>
+<%= form_for @self_esteem, :url => { :host => sigma_host, :controller => :survey, :action => :create_self_esteem_for_person}, :html => { :class => "form-horizontal self_esteem" } do |f| %>
 
     <% if @self_esteem.errors.any? %>
     <div id="error_expl" class="panel panel-danger">
@@ -113,6 +113,6 @@
 
   <%= f.submit "Accept (2/2)", :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-            {:controller => :survey, :action => :index}, :class => 'btn btn-default' %>
+            {:host => sigma_host, :controller => :survey, :action => :index}, :class => 'btn btn-default' %>
 
 <% end %>
