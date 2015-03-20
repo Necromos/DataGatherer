@@ -42,7 +42,8 @@ class SurveyController < ApplicationController
                                           smoker: to_boolean(personal_datum_params[:smoker]),
                                           alcoholic: to_boolean(personal_datum_params[:alcoholic]),
                                           druggy: to_boolean(personal_datum_params[:druggy]),
-                                          disabled: to_boolean(personal_datum_params[:disabled])).first
+                                          disabled: to_boolean(personal_datum_params[:disabled]),
+                                          stress: to_boolean(personal_datum_params[:stress])).first
     if @personal_datum.nil?
       @personal_datum = PersonalDatum.new personal_datum_params
     end
@@ -96,7 +97,7 @@ class SurveyController < ApplicationController
     end
 
     def personal_datum_params
-      params.require(:personal_datum).permit(:sex, :age, :nationality, :living_country, :health_issues, :chronic_diseases, :smoker, :alcoholic, :druggy, :disabled, :psychotropic)
+      params.require(:personal_datum).permit(:sex, :age, :nationality, :living_country, :health_issues, :chronic_diseases, :smoker, :alcoholic, :druggy, :disabled, :psychotropic, :stress)
     end
 
     def set_self_esteem

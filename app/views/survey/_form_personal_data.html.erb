@@ -93,6 +93,13 @@
     </div>
     <%= error_span(@personal_datum[:disabled]) %>
   </div>
+  <div class="form-group">
+    <%= f.label :stress, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Have you been exposed to stressful situation today?' %>
+    <div class="controls">
+      <%= f.check_box :stress, {:class => 'form-control checkbox-control'},"true","false" %>
+    </div>
+    <%= error_span(@personal_datum[:stress]) %>
+  </div>
 
 
   <%= f.submit "Proceed (1/2)", :class => 'btn btn-primary' %>
