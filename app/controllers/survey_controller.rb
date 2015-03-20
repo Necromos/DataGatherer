@@ -48,7 +48,11 @@ class SurveyController < ApplicationController
       @personal_datum = PersonalDatum.new personal_datum_params
     end
     if @personal_datum.valid? && @personal_datum.save
-      redirect_to :action => 'get_self_esteem', :id => @personal_datum.id
+      if request.host == 'sigma.ug.edu.pl'
+        redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => 'get_self_esteem', :id => @personal_datum.id
+      else
+        redirect_to :action => 'get_self_esteem', :id => @personal_datum.id
+      end
     else
       render :action => :get_personal_data
     end
@@ -60,7 +64,11 @@ class SurveyController < ApplicationController
     seasons
     if @self_esteem.valid? && @self_esteem.save
       cookies[:filled] = {value: "thanks", expires: (Time.new.seconds_until_end_of_day).seconds.from_now }
-      redirect_to :action => 'thank_you'
+      if request.host == 'sigma.ug.edu.pl'
+        redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => 'thank_you'
+      else
+        redirect_to :action => 'thank_you'
+      end
     else
       render :action => :get_self_esteem
     end
