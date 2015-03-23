@@ -21,7 +21,7 @@ class SurveyController < ApplicationController
 
   def thank_you
     if cookies[:filled].nil? || !cookies[:seen].nil?
-      redirect_to root_path
+      redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => 'index'
     end
     cookies[:seen] = {value: "yup", expires: (Time.new.seconds_until_end_of_day).seconds.from_now }
     offset = rand(FunnyStuff.count)
