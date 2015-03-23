@@ -16,7 +16,7 @@
   <% end %>
 
   <div class="control-group">
-    <%= f.label :alcohol, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many drinks did you have today?' %>
+    <%= f.label :alcohol, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.alcohol') %>
     <div class="controls input-group">
       <%= f.text_field :alcohol, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.alcohol_ad' %></div>
@@ -24,7 +24,7 @@
     <%= error_span(@self_esteem[:alcohol]) %>
   </div>
   <div class="control-group">
-    <%= f.label :tabacco, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many cigarettes did you smoke today?' %>
+    <%= f.label :tabacco, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.tabacco') %>
     <div class="controls input-group">
       <%= f.text_field :tabacco, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.tabacco_ad' %></div>
@@ -32,7 +32,7 @@
     <%= error_span(@self_esteem[:tabacco]) %>
   </div>
   <div class="control-group">
-    <%= f.label :drugs, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many drug doses did you took today?' %>
+    <%= f.label :drugs, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.drugs') %>
     <div class="controls input-group">
       <%= f.text_field :drugs, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.drugs_ad' %></div>
@@ -40,7 +40,7 @@
     <%= error_span(@self_esteem[:drugs]) %>
   </div>
   <div class="control-group">
-    <%= f.label :walking_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many minutes did you spent on walking today?' %>
+    <%= f.label :walking_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wtpd') %>
     <div class="controls input-group">
       <%= f.text_field :walking_time_per_day, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
@@ -48,7 +48,7 @@
     <%= error_span(@self_esteem[:walking_time_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label :jogging_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many minutes did you spent on jogging today?' %>
+    <%= f.label :jogging_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.jtpd') %>
     <div class="controls input-group">
       <%= f.text_field :jogging_time_per_day, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
@@ -56,7 +56,7 @@
     <%= error_span(@self_esteem[:jogging_time_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label :gym_workout_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many minutes did you spent in gym today? Do you even lift bro?' %>
+    <%= f.label :gym_workout_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wotpd') %>
     <div class="controls input-group">
       <%= f.text_field :gym_workout_time_per_day, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
@@ -64,7 +64,7 @@
     <%= error_span(@self_esteem[:gym_workout_time_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label :swimming_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many minutes did you spent in swimming pool today?' %>
+    <%= f.label :swimming_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.stpd') %>
     <div class="controls input-group">
       <%= f.text_field :swimming_time_per_day, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
@@ -72,7 +72,7 @@
     <%= error_span(@self_esteem[:swimming_time_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label :junk_food_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How many unhealthy meals did you have today?' %>
+    <%= f.label :junk_food_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.jfpd') %>
     <div class="controls input-group">
       <%= f.text_field :junk_food_per_day, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.meals_per_day_ad' %></div>
@@ -80,7 +80,7 @@
     <%= error_span(@self_esteem[:junk_food_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label :wholesome_food_per_day, :class => 'control-label', 'data-placement' => 'right', 'title' => 'How many healthy meals did you have today?' %>
+    <%= f.label :wholesome_food_per_day, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.wfpd') %>
     <div class="controls input-group">
       <%= f.text_field :wholesome_food_per_day, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.meals_per_day_ad' %></div>
@@ -88,21 +88,21 @@
     <%= error_span(@self_esteem[:wholesome_food_per_day]) %>
   </div>
   <div class="control-group">
-    <%= f.label :weather, :class => 'control-label', 'data-placement' => 'right', 'title' => 'How would you descibe weather today?' %>
+    <%= f.label :weather, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.weather') %>
     <div class="controls">
       <%= f.select :weather, @weather, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@self_esteem[:weather]) %>
   </div>
   <div class="control-group">
-    <%= f.label :season, :class => 'control-label', 'data-placement' => 'right', 'title' => 'Current season of the year?' %>
+    <%= f.label :season, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.season') %>
     <div class="controls">
       <%= f.select :season, @seasons, {}, { :class => 'form-control' } %>
     </div>
     <%= error_span(@self_esteem[:season]) %>
   </div>
   <div class="control-group">
-    <%= f.label :self_esteem, :class => 'control-label', 'data-placement' => 'right', 'title' => 'In scale from 1 to 10 how do you describe your self esteem today?' %>
+    <%= f.label :self_esteem, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.self_esteem') %>
     <div class="controls">
       <%= f.select :self_esteem, 1..10, {}, { :class => 'form-control' } %>
     </div>
