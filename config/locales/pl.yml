@@ -1,0 +1,133 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+pl:
+  welcome: 'Drogi internauto!'
+  welcome_text: 'Bardzo dziekuję za wizytę na mojej stronie! Ankieta którą właśnie odbędziesz
+  nie powinna zająć więcej niżeli 5 minut (albo nawet 1 jeżeli masz bardzo dobrą pamięć co robiłeś/aś dzisiejszego dnia).
+  Proszę, bądź jak najbardziej szczery/a w stosunku do odpowiedzi i nie ukrywaj żadnych faktów
+  gdyż może mieć to duży wpływ na działanie klasyfikatorów.'
+  warning1: 'Uwaga 1! Niektóre pytania mogą ingerować w Twoje prywatne życie i wrażliwe tematy
+  jeżeli nie chcesz odpowiadać na nie to proszę, umieść jak najniższą możliwą wartość.
+  Żadne prywatne dane umożliwiające szpiegowanie Ciebie nie są zapisywane także masz całkowitą anonimowość.'
+  warning2: 'Uwaga 2! Ta strona używa tak zwanych "Ciasteczek" do zapisywania nie namierzalnych danych. Kliknięcie przycisku "Rozpocznij ankietę"
+  jest wyrażeniem zgody na zapisanie ich na Twoim komputerze.'
+  attend: 'Rozpocznij ankietę'
+  context: 'Dane kontekstowe'
+  classification: 'Dane klasyfikacyjne'
+  errors_notification: 'Wystąpiły następujące błędy podczas zapisywania formularza:'
+  proceed: 'Kontynuuj (1/2)'
+  accept: 'Akceptuj (2/2)'
+  thank_you: 'Dziękuję!'
+  day: 'Życzę miłego dnia! :)'
+  goodbye: 'Trzymaj! Weź to zdjęcie z sobą!'
+  adds:
+    age_ad: 'lat'
+    alcohol_ad: 'drinków/dzisiaj'
+    tabacco_ad: 'papierosów/dzisiaj'
+    drugs_ad: 'dawek/dzisiaj'
+    min_per_day_ad: 'min/dzisiaj'
+    meals_per_day_ad: 'posiłków/dzisiaj'
+  helpers:
+    label:
+      personal_datum:
+        sex: 'Płeć'
+        age: 'Wiek'
+        nationality: 'Narodowość'
+        living_country: 'Kraj zamieszkania'
+        health_issues: 'Problemy zdrowotne'
+        chronic_diseases: 'Choroby przewlekłe'
+        smoker: 'Palacz'
+        alcoholic: 'Alkoholik'
+        druggy: 'Narkoman'
+        psychotropic: 'Leki psychoaktywne/psychotropowe'
+        disabled: 'Niepełnosprawny'
+        stress: 'Stres'
+      self_esteem:
+        alcohol: 'Alkohol'
+        tabacco: 'Papierosy'
+        drugs: 'Narkotyki'
+        walking_time_per_day: 'Czas poświęcony na chodzenie'
+        jogging_time_per_day: 'Czas poświęcony na bieganie'
+        gym_workout_time_per_day: 'Czas poświęcony na trening fizyczny'
+        swimming_time_per_day: 'Czas poświęcony na pływanie'
+        junk_food_per_day: 'Niezdrowe jedzenie'
+        wholesome_food_per_day: 'Pełnowartościowe jedzenie'
+        weather: 'Dzisiejsza pogoda'
+        season: 'Pora roku'
+        self_esteem: 'Samopoczucie'
+  activerecord:
+    attributes:
+      personal_datum:
+        age: 'Wiek'
+      self_esteem:
+        alcohol: 'Alkohol'
+        tabacco: 'Papierosy'
+        drugs: 'Narkotyki'
+        walking_time_per_day: 'Czas poświęcony na chodzenie'
+        jogging_time_per_day: 'Czas poświęcony na bieganie'
+        gym_workout_time_per_day: 'Czas poświęcony na trening fizyczny'
+        swimming_time_per_day: 'Czas poświęcony na pływanie'
+        junk_food_per_day: 'Niezdrowe jedzenie'
+        wholesome_food_per_day: 'Pełnowartościowe jedzenie'
+        weather: 'Dzisiejsza pogoda'
+        season: 'Pora roku'
+        self_esteem: 'Samopoczucie'
+    errors:
+      models:
+        personal_datum:
+          attributes:
+            sex:
+              blank: 'nie może być pusta'
+            age:
+              blank: 'nie może być pusty'
+              not_a_number: 'nie jest liczbą'
+            nationality:
+              blank: 'nie może być puste'
+        self_esteem:
+          attributes:
+            alcohol:
+              blank: 'nie może być pusty'
+              not_a_number: 'nie jest liczbą'
+            tabacco:
+              blank: 'nie mogą być puste'
+              not_a_number: 'nie jest liczbą'
+            drugs:
+              blank: 'nie mogą być puste'
+              not_a_number: 'nie jest liczbą'
+            walking_time_per_day:
+              blank: 'nie może być pusty'
+              not_a_number: 'nie jest liczbą'
+            jogging_time_per_day:
+              blank: 'nie może być pusty'
+              not_a_number: 'nie jest liczbą'
+            gym_workout_time_per_day:
+              blank: 'nie może być pusty'
+              not_a_number: 'nie jest liczbą'
+            swimming_time_per_day:
+              blank: 'nie może być pusty'
+              not_a_number: 'nie jest liczbą'
+            junk_food_per_day:
+              blank: 'nie może być puste'
+              not_a_number: 'nie jest liczbą'
+            wholesome_food_per_day:
+              blank: 'nie może być puste'
+              not_a_number: 'nie jest liczbą'

@@ -77,11 +77,11 @@ class SurveyController < ApplicationController
   private
 
     def weather
-      @weather = ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
+      @weather = I18n.locale.to_s == 'pl' ? [["Reśko", "Breezy"], ["Burzowo", "Stormy"], ["Mgliście", "Foggy"], ["Słonecznie", "Sunny"], ["Deszczowo", "Rainy"], ["Wietrznie", "Windy"], ["Mżawka", "Misty"], ["Lodowato", "Icy"], ["Deszczowo", "Showery"], ["Mocna burza","Thundery"]] : ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
     end
 
     def sex
-      @sex = ["Male","Female"]
+      @sex = I18n.locale.to_s == 'pl' ? [["Mężczyzna","Male"],["Kobieta","Female"]] : ["Male","Female"]
     end
 
     def nationalities
@@ -93,7 +93,7 @@ class SurveyController < ApplicationController
     end
 
     def seasons
-      @seasons = ["Spring", "Summer", "Autumn", "Winter"]
+      @seasons = I18n.locale.to_s == 'pl' ? [["Wiosna","Spring"], ["Lato", "Summer"], ["Jesień", "Autumn"], ["Zima", "Winter"]] : ["Spring", "Summer", "Autumn", "Winter"]
     end
 
     def to_boolean(str)

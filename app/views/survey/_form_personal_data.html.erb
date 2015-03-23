@@ -3,7 +3,7 @@
     <% if @personal_datum.errors.any? %>
     <div id="error_expl" class="panel panel-danger">
       <div class="panel-heading">
-        <h3 class="panel-title">There were <%= pluralize(@personal_datum.errors.count, "error") %> errors in the form, please verify and correct them:</h3>
+        <h3 class="panel-title"><%= t 'errors_notification' %></h3>
       </div>
       <div class="panel-body">
         <ul>
@@ -26,7 +26,7 @@
     <%= f.label :age, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'How old are you?' %>
     <div class="controls input-group">
       <%= f.text_field :age, :class => 'form-control' %>
-      <div class="input-group-addon">y.o.</div>
+      <div class="input-group-addon"><%= t 'adds.age_ad' %></div>
     </div>
     <%= error_span(@personal_datum[:age]) %>
   </div>
@@ -38,7 +38,7 @@
     <%= error_span(@personal_datum[:nationality]) %>
   </div>
   <div class="form-group">
-    <%= f.label "Country of residence", :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Where do you live currently?' %>
+    <%= f.label :living_country, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Where do you live currently?' %>
     <div class="controls">
       <%= f.select :living_country, @countries, {}, { :class => 'form-control' } %>
     </div>
@@ -80,7 +80,7 @@
     <%= error_span(@personal_datum[:druggy]) %>
   </div>
   <div class="form-group">
-    <%= f.label 'Psychoactive medicine', :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Do you take any psychoactive medicine?' %>
+    <%= f.label :psychotropic, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => 'Do you take any psychoactive medicine?' %>
     <div class="controls">
       <%= f.check_box :psychotropic, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
@@ -102,7 +102,7 @@
   </div>
 
 
-  <%= f.submit "Proceed (1/2)", :class => 'btn btn-primary' %>
+  <%= f.submit t('proceed'), :class => 'btn btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
             {:host => sigma_host, :controller => :survey, :action => :index}, :class => 'btn btn-default' %>
 

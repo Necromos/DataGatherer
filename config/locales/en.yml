@@ -20,4 +20,44 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  welcome: 'Dear visitor!'
+  welcome_text: 'Thank you very much for visiting my site! The survey you are about to fill
+  should not take more than 5 minutes (or even more
+  than 1 if you have really good memory of what you done today). Please be
+  sincere about answers and make them life corresponding as much as possible because
+  it may interfere with classificators.'
+  warning1: 'Warning 1! Some questions may interfere in your private life and sensitive topics
+  if you do not want to answer them then please put lowest score possible.
+  I do not gather any private traceable data so your privacy is asured.'
+  warning2: 'Warning 2! This site use "Cookies" to store non tracable data. After clicking "Attend Survey" button
+  you herby allow it to be stored in yours browser.'
+  attend: 'Attend Survey'
+  context: 'Context data.'
+  classification: 'Classification data'
+  errors_notification: 'There were some errors in the form, please verify and correct them:'
+  proceed: 'Proceed (1/2)'
+  accept: 'Accept (2/2)'
+  thank_you: 'Thank You!'
+  day: 'Have a nice day! :)'
+  goodbye: 'Here! Take this picture with you!'
+  adds:
+    age_ad: 'y.o.'
+    alcohol_ad: 'drinks/today'
+    tabacco_ad: 'ciggarets/today'
+    drugs_ad: 'doses/today'
+    min_per_day_ad: 'min/today'
+    meals_per_day_ad: 'meals/today'
+  helpers:
+    label:
+      personal_datum:
+        living_country: 'Country of residence'
+        psychotropic: 'Psychoactive medicine'
+      self_esteem:
+        walking_time_per_day: 'Walking time today'
+        jogging_time_per_day: 'Jogging time today'
+        gym_workout_time_per_day: 'Workout time today'
+        swimming_time_per_day: 'Swimming time today'
+        junk_food_per_day: 'Junk food today'
+        wholesome_food_per_day: 'Healthy food today'
+        weather: 'Weather today'
+        season: 'Current season'
