@@ -17,6 +17,7 @@ namespace :repair do
           if id != pd.id
             pdids = pd.self_esteem_ids
             pd.self_esteem_ids = []
+            pdca, pdua = pd.created_at, pd.updated_at
             pd.created_at, pd.updated_at = nil, nil
             pdid = pd.id
             pd.id = 0
@@ -24,6 +25,11 @@ namespace :repair do
               puts 'Repairing record number '+pdid.to_s
               aids.concat pdids
               PersonalDatum.destroy(pdid)
+            else
+              pd.id = pdid
+              pd.created_at, pd.updated_at = pdca, pdua
+              pd.self_esteem_ids = pdids
+              pd.save
             end
           end
         end
