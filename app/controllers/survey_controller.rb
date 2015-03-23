@@ -34,7 +34,7 @@ class SurveyController < ApplicationController
     sex
     @personal_datum = PersonalDatum.where(sex: personal_datum_params[:sex],
                                           age: personal_datum_params[:age],
-                                          psychotropic: personal_datum_params[:psychotropic],
+                                          psychotropic: to_boolean(personal_datum_params[:psychotropic]),
                                           nationality: personal_datum_params[:nationality],
                                           living_country: personal_datum_params[:living_country],
                                           health_issues: to_boolean(personal_datum_params[:health_issues]),
