@@ -77,7 +77,7 @@ class SurveyController < ApplicationController
   private
 
     def weather
-      @weather = I18n.locale.to_s == 'pl' ? [["Reśko", "Breezy"], ["Burzowo", "Stormy"], ["Mgliście", "Foggy"], ["Słonecznie", "Sunny"], ["Deszczowo", "Rainy"], ["Wietrznie", "Windy"], ["Mżawka", "Misty"], ["Lodowato", "Icy"], ["Deszczowo", "Showery"], ["Mocna burza","Thundery"]] : ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
+      @weather = I18n.locale.to_s == 'pl' ? [["Rześko", "Breezy"], ["Burzowo", "Stormy"], ["Mgliście", "Foggy"], ["Słonecznie", "Sunny"], ["Deszczowo", "Rainy"], ["Wietrznie", "Windy"], ["Mżawka", "Misty"], ["Lodowato", "Icy"], ["Deszczowo", "Showery"], ["Mocna burza","Thundery"]] : ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
     end
 
     def sex
