@@ -11,6 +11,7 @@ class SurveyController < ApplicationController
     seasons
     if params[:id]
       @self_esteem = SelfEsteem.new personal_datum_id: params[:id]
+      fill_with_context(@self_esteem)
     else
       redirect_to :root
     end
@@ -75,6 +76,13 @@ class SurveyController < ApplicationController
   end
 
   private
+
+    def fill_with_context(self_esteem)
+      personal_data = PersonalDatum.find(self_esteem.personal_datum_id)
+      self_esteem.alcohol = personal_data.alcoholic? ? 1 : 0
+      self_esteem.tabacco = personal_data.smoker? ? 1 : 0
+      self_esteem.drugs = personal_data.druggy? ? 1 : 0
+    end
 
     def weather
       @weather = I18n.locale.to_s == 'pl' ? [["Rześko", "Breezy"], ["Burzowo", "Stormy"], ["Mgliście", "Foggy"], ["Słonecznie", "Sunny"], ["Deszczowo", "Rainy"], ["Wietrznie", "Windy"], ["Mżawka", "Misty"], ["Lodowato", "Icy"], ["Deszczowo", "Showery"], ["Mocna burza","Thundery"]] : ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
