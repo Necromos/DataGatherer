@@ -15,104 +15,94 @@
     </div>
   <% end %>
 
-  <div class="control-group">
-    <%= f.label :alcohol, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.alcohol') %>
+  <div class="form-group">
+    <%= f.label :alcohol, :class => 'control-label col-md-4 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.alcohol') %>
     <div class="controls input-group">
       <%= f.text_field :alcohol, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.alcohol_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:alcohol]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :tabacco, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.tabacco') %>
+  <div class="form-group">
+    <%= f.label :tabacco, :class => 'control-label col-md-4 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.tabacco') %>
     <div class="controls input-group">
       <%= f.text_field :tabacco, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.tabacco_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:tabacco]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :drugs, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.drugs') %>
+  <div class="form-group">
+    <%= f.label :drugs, :class => 'control-label col-md-4 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.drugs') %>
     <div class="controls input-group">
       <%= f.text_field :drugs, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.drugs_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:drugs]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :walking_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wtpd') %>
+  <div class="form-group">
+    <%= f.label :walking_time_per_day, :class => 'control-label col-md-8 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wtpd') %>
     <div class="controls input-group">
-      <%= f.text_field :walking_time_per_day, :class => 'form-control' %>
+      <%= f.text_field :walking_time_per_day, :class => 'form-control col-md-4' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:walking_time_per_day]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :jogging_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.jtpd') %>
+  <div class="form-group">
+    <%= f.label :jogging_time_per_day, :class => 'control-label col-md-8 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.jtpd') %>
     <div class="controls input-group">
-      <%= f.text_field :jogging_time_per_day, :class => 'form-control' %>
+      <%= f.text_field :jogging_time_per_day, :class => 'form-control col-md-4' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:jogging_time_per_day]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :gym_workout_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wotpd') %>
+  <div class="form-group">
+    <%= f.label :gym_workout_time_per_day, :class => 'control-label col-md-8 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wotpd') %>
     <div class="controls input-group">
-      <%= f.text_field :gym_workout_time_per_day, :class => 'form-control' %>
+      <%= f.text_field :gym_workout_time_per_day, :class => 'form-control col-md-4' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:gym_workout_time_per_day]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :swimming_time_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.stpd') %>
+  <div class="form-group">
+    <%= f.label :swimming_time_per_day, :class => 'control-label col-md-8 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.stpd') %>
     <div class="controls input-group">
-      <%= f.text_field :swimming_time_per_day, :class => 'form-control' %>
+      <%= f.text_field :swimming_time_per_day, :class => 'form-control col-md-4' %>
       <div class="input-group-addon"><%= t 'adds.min_per_day_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:swimming_time_per_day]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :junk_food_per_day, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.jfpd') %>
+  <div class="form-group">
+    <%= f.label :junk_food_per_day, :class => 'control-label col-md-8 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.jfpd') %>
     <div class="controls input-group">
-      <%= f.text_field :junk_food_per_day, :class => 'form-control' %>
+      <%= f.text_field :junk_food_per_day, :class => 'form-control col-md-4' %>
       <div class="input-group-addon"><%= t 'adds.meals_per_day_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:junk_food_per_day]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :wholesome_food_per_day, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.wfpd') %>
+  <div class="form-group">
+    <%= f.label :wholesome_food_per_day, :class => 'control-label col-md-8 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.wfpd') %>
     <div class="controls input-group">
-      <%= f.text_field :wholesome_food_per_day, :class => 'form-control' %>
+      <%= f.text_field :wholesome_food_per_day, :class => 'form-control col-md-4' %>
       <div class="input-group-addon"><%= t 'adds.meals_per_day_ad' %></div>
     </div>
-    <%= error_span(@self_esteem[:wholesome_food_per_day]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :weather, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.weather') %>
-    <div class="controls">
-      <%= f.select :weather, @weather, {}, { :class => 'form-control' } %>
+  <div class="form-group">
+    <%= f.label :weather, :class => 'control-label col-md-4 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.weather') %>
+    <div class="controls input-group col-md-8">
+      <%= f.select :weather, @weather, {}, { :class => 'form-control', 'data-width' => '100%' } %>
     </div>
-    <%= error_span(@self_esteem[:weather]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :season, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.season') %>
-    <div class="controls">
-      <%= f.select :season, @seasons, {}, { :class => 'form-control' } %>
+  <div class="form-group">
+    <%= f.label :season, :class => 'control-label col-md-4 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.season') %>
+    <div class="controls input-group col-md-8">
+      <%= f.select :season, @seasons, {}, { :class => 'form-control', 'data-width' => '100%' } %>
     </div>
-    <%= error_span(@self_esteem[:season]) %>
   </div>
-  <div class="control-group">
-    <%= f.label :self_esteem, :class => 'control-label', 'data-placement' => 'right', 'title' => t('titles.self_esteem') %>
-    <div class="controls">
-      <%= f.select :self_esteem, 1..10, {}, { :class => 'form-control' } %>
+  <div class="form-group">
+    <%= f.label :self_esteem, :class => 'control-label col-md-4 has-tooltip', 'data-placement' => 'right', 'title' => t('titles.self_esteem') %>
+    <div class="controls input-group col-md-8">
+      <%= f.select :self_esteem, 1..10, {}, { :class => 'form-control', 'data-width' => '100%' } %>
     </div>
-    <%= error_span(@self_esteem[:self_esteem]) %>
   </div>
   <%= f.hidden_field :personal_datum_id, :value => @self_esteem.personal_datum_id %>
   <br />
 
-  <%= f.submit t('accept'), :class => 'btn btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-            {:host => sigma_host, :controller => :survey, :action => :index}, :class => 'btn btn-default' %>
-
+  <div class="col-md-offset-3 col-md-3">
+    <%= f.submit t('accept'), :class => 'btn btn-primary btn-lg' %>
+  </div>
+  <div class="col-md-3">
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), {:host => sigma_host, :controller => :survey, :action => :index}, :class => 'btn btn-default btn-lg' %>
+  </div>
 <% end %>

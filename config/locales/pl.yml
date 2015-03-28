@@ -52,7 +52,7 @@ pl:
     smoker: 'Palisz papierosy?'
     alcoholic: 'Czy masz problemy z alkoholem?'
     druggy: 'Zażywasz narkotyki (teawka, heroina, itp.)?'
-    psychotropic: 'Czy bierzesz jakieś leki psychoaktywne/psychotropowe?'
+    psychotropic: 'Czy bierzesz jakieś leki psychoaktywne?'
     disabled: 'Jesteś niepełnosprawny?'
     stress: 'Czy zdarzyło się coś stresującego dzisiaj?'
     alcohol: 'Ile wypiłeś/aś dzisiaj drinków?'
@@ -69,11 +69,11 @@ pl:
     self_esteem: 'W skali od 1 do 10 jak się dzisiaj czułeś/aś?'
   adds:
     age_ad: 'lat'
-    alcohol_ad: 'drinków/dzisiaj'
-    tabacco_ad: 'papierosów/dzisiaj'
-    drugs_ad: 'dawek/dzisiaj'
-    min_per_day_ad: 'min/dzisiaj'
-    meals_per_day_ad: 'posiłków/dzisiaj'
+    alcohol_ad: 'drinków'
+    tabacco_ad: 'papierosów'
+    drugs_ad: 'dawek'
+    min_per_day_ad: 'min'
+    meals_per_day_ad: 'posiłków'
   helpers:
     label:
       personal_datum:
@@ -86,7 +86,7 @@ pl:
         smoker: 'Palacz'
         alcoholic: 'Alkoholik'
         druggy: 'Narkoman'
-        psychotropic: 'Leki psychoaktywne/psychotropowe'
+        psychotropic: 'Leki psychoaktywne'
         disabled: 'Niepełnosprawny'
         stress: 'Stres'
       self_esteem:

@@ -97,3 +97,11 @@ body {
 label {
   font-size: 24px !important;
 }
+
+.autowidth {
+  width: auto !important;
+}
+
+.control-label {
+  padding-top: 0px !important;
+}

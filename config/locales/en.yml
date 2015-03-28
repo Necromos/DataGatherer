@@ -70,11 +70,11 @@ en:
     self_esteem: 'In scale from 1 to 10 how do you describe your self esteem today?'
   adds:
     age_ad: 'y.o.'
-    alcohol_ad: 'drinks/today'
-    tabacco_ad: 'ciggarets/today'
-    drugs_ad: 'doses/today'
-    min_per_day_ad: 'min/today'
-    meals_per_day_ad: 'meals/today'
+    alcohol_ad: 'drinks'
+    tabacco_ad: 'ciggarets'
+    drugs_ad: 'doses'
+    min_per_day_ad: 'min'
+    meals_per_day_ad: 'meals'
   helpers:
     label:
       personal_datum:

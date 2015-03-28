@@ -15,95 +15,87 @@
     </div>
   <% end %>
 
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :sex, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.sex') %>
     <div class="controls">
       <%= f.select :sex, @sex, {}, { :class => 'form-control' } %>
     </div>
-    <%= error_span(@personal_datum[:sex]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :age, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.age') %>
     <div class="controls input-group">
       <%= f.text_field :age, :class => 'form-control' %>
       <div class="input-group-addon"><%= t 'adds.age_ad' %></div>
     </div>
-    <%= error_span(@personal_datum[:age]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :nationality, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.nationality') %>
     <div class="controls">
       <%= f.select :nationality, @nationalities, {}, { :class => 'form-control' } %>
     </div>
-    <%= error_span(@personal_datum[:nationality]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :living_country, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.living_country') %>
     <div class="controls">
       <%= f.select :living_country, @countries, {}, { :class => 'form-control' } %>
     </div>
-    <%= error_span(@personal_datum[:living_country]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :health_issues, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.health_issue') %>
     <div class="controls">
       <%= f.check_box :health_issues, {:class => 'form-control checkbox-control'},"true","false"  %>
     </div>
-    <%= error_span(@personal_datum[:health_issues]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :chronic_diseases, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.chronic_diseases') %>
     <div class="controls">
       <%= f.check_box :chronic_diseases, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
-    <%= error_span(@personal_datum[:chronic_diseases]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :smoker, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.smoker') %>
     <div class="controls">
       <%= f.check_box :smoker, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
-    <%= error_span(@personal_datum[:smoker]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :alcoholic, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.alcoholic') %>
     <div class="controls">
       <%= f.check_box :alcoholic, {:class => 'form-control checkbox-control'},"true","false"%>
     </div>
-    <%= error_span(@personal_datum[:alcoholic]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :druggy, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.druggy') %>
     <div class="controls">
       <%= f.check_box :druggy, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
-    <%= error_span(@personal_datum[:druggy]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :psychotropic, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.psychotropic') %>
     <div class="controls">
       <%= f.check_box :psychotropic, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
-    <%= error_span(@personal_datum[:psychotropic]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :disabled, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.disabled') %>
     <div class="controls">
       <%= f.check_box :disabled, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
-    <%= error_span(@personal_datum[:disabled]) %>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-6">
     <%= f.label :stress, :class => 'control-label has-tooltip', 'data-placement' => 'right', 'title' => t('titles.stress') %>
     <div class="controls">
       <%= f.check_box :stress, {:class => 'form-control checkbox-control'},"true","false" %>
     </div>
-    <%= error_span(@personal_datum[:stress]) %>
   </div>
 
 
-  <%= f.submit t('proceed'), :class => 'btn btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-            {:host => sigma_host, :controller => :survey, :action => :index}, :class => 'btn btn-default' %>
+
+  <div class="col-md-offset-3 col-md-3">
+    <%= f.submit t('proceed'), :class => 'btn btn-primary btn-lg' %>
+  </div>
+  <div class="col-md-3">
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), {:host => sigma_host, :controller => :survey, :action => :index}, :class => 'btn btn-default btn-lg' %>
+  </div>
 
 <% end %>
