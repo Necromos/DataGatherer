@@ -8,5 +8,5 @@
 FunnyStuff.delete_all
 source_path = Rails.root.join('app','assets','images')
 Dir.foreach(source_path).each do |image|
-  FunnyStuff.create(name: image, source: 'http://4chan.org')
+  FunnyStuff.create(name: image, source: 'http://4chan.org') if image != '.keep' || image != '.' || image != '..'
 end
