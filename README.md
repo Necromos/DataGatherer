@@ -12,3 +12,6 @@ gather context and classification data to be used in second application.
 3. ~~Change css after self_esteem select box~~ (yolo <br />)
 4. ~~Add kitties generator :3~~
 5. ~~Make "normal" model uniqueness checker~~
+6. Add classifier
+7. Make model for classifier results
+8. Implement closest records algorithm

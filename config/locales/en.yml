@@ -30,8 +30,8 @@ en:
   warning1: 'Warning 1! Some questions may interfere in your private life and sensitive topics
   if you do not want to answer them then please put lowest score possible.
   I do not gather any private traceable data so your privacy is asured.'
-  warning2: 'Warning 2! This site use "Cookies" to store non tracable data. After clicking "Attend Survey" button
-  you herby allow it to be stored in yours browser.'
+  warning2: 'Warning 2! This site use "Cookies" to store non traceable data. After clicking "Attend Survey" button
+  you hereby allow it to be stored in your browser.'
   attend: 'Attend Survey'
   context: 'Context data.'
   context_desc: 'Data will be used in process of estabilishing k closest neighbours.'
