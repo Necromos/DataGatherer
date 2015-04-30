@@ -68,7 +68,7 @@ en:
     wfpd: 'How many healthy meals did you have today?'
     weather: 'How would you descibe weather today?'
     season: 'Current season of the year?'
-    self_esteem: 'In scale from 1 to 10 how do you describe your self esteem today?'
+    self_esteem: 'In scale from 1 to 10 how do you describe your self-esteem today?'
   adds:
     age_ad: 'y.o.'
     alcohol_ad: 'drinks'
@@ -88,5 +88,6 @@ en:
         swimming_time_per_day: 'Swimming time today'
         junk_food_per_day: 'Junk food today'
         wholesome_food_per_day: 'Healthy food today'
+        self_esteem: 'Self-esteem'
         weather: 'Weather today'
         season: 'Current season'
