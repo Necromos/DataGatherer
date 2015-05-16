@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320101626) do
+ActiveRecord::Schema.define(version: 20150430095912) do
 
   create_table "funny_stuffs", force: true do |t|
     t.string   "name"
@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 20150320101626) do
     t.boolean  "psychotropic"
     t.boolean  "stress"
   end
+
+  create_table "results", force: true do |t|
+    t.integer  "user_score"
+    t.integer  "self_esteem_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "results", ["self_esteem_id"], name: "index_results_on_self_esteem_id"
 
   create_table "self_esteems", force: true do |t|
     t.integer  "personal_datum_id"

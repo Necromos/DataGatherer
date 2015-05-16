@@ -15,6 +15,8 @@ gem 'less-rails' #Sprockets (what Rails 3.1 uses for its asset pipeline) support
 gem 'twitter-bootstrap-rails'
 gem 'puma'
 gem 'simple_form'
+gem 'ai4r'
+gem 'rjb'
 
 group :production do
   gem 'pg'

@@ -27,6 +27,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
+    ai4r (1.13)
     arel (5.0.1.20140414130214)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -99,6 +100,7 @@ GEM
     rdoc (4.2.0)
       json (~> 1.4)
     ref (1.0.5)
+    rjb (1.5.3)
     rspec-core (3.2.2)
       rspec-support (~> 3.2.0)
     rspec-expectations (3.2.0)
@@ -163,6 +165,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ai4r
   better_errors
   binding_of_caller
   byebug
@@ -173,6 +176,7 @@ DEPENDENCIES
   pg
   puma
   rails (= 4.1.8)
+  rjb
   rspec-rails (~> 3.0)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

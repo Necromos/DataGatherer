@@ -22,7 +22,7 @@ class SurveyController < ApplicationController
 
   def thank_you
     if cookies[:filled].nil? || !cookies[:seen].nil?
-      redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => 'index'
+      sigma_host 'index'
     end
     cookies[:seen] = {value: "yup", expires: (Time.new.seconds_until_end_of_day).seconds.from_now }
     offset = rand(FunnyStuff.count)
@@ -49,11 +49,7 @@ class SurveyController < ApplicationController
       @personal_datum = PersonalDatum.new personal_datum_params
     end
     if @personal_datum.valid? && @personal_datum.save
-      if request.host == 'sigma.ug.edu.pl'
-        redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => 'get_self_esteem', :id => @personal_datum.id
-      else
-        redirect_to :action => 'get_self_esteem', :id => @personal_datum.id
-      end
+      sigma_host 'get_self_esteem', @personal_datum.id
     else
       render :action => :get_personal_data
     end
@@ -65,17 +61,29 @@ class SurveyController < ApplicationController
     seasons
     if @self_esteem.valid? && @self_esteem.save
       cookies[:filled] = {value: "thanks", expires: (Time.new.seconds_until_end_of_day).seconds.from_now }
-      if request.host == 'sigma.ug.edu.pl'
-        redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => 'thank_you'
-      else
-        redirect_to :action => 'thank_you'
-      end
+      sigma_host 'thank_you'
     else
       render :action => :get_self_esteem
     end
   end
 
   private
+
+    def sigma_host(action, id = nil)
+      if id.nil?
+        if request.host == 'sigma.ug.edu.pl'
+          redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => action
+        else
+          redirect_to :action => action
+        end
+      else
+        if request.host == 'sigma.ug.edu.pl'
+          redirect_to :host => request.host+'/~pkrolik/datagatherer', :action => action, :id => id
+        else
+          redirect_to :action => action, :id => id
+        end
+      end
+    end
 
     def fill_with_context(self_esteem)
       personal_data = PersonalDatum.find(self_esteem.personal_datum_id)
@@ -85,7 +93,7 @@ class SurveyController < ApplicationController
     end
 
     def weather
-      @weather = I18n.locale.to_s == 'pl' ? [["Rześko", "Breezy"], ["Burzowo", "Stormy"], ["Mgliście", "Foggy"], ["Słonecznie", "Sunny"], ["Deszczowo", "Rainy"], ["Wietrznie", "Windy"], ["Mżawka", "Misty"], ["Lodowato", "Icy"], ["Deszczowo", "Showery"], ["Mocna burza","Thundery"]] : ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
+      @weather = I18n.locale.to_s == 'pl' ? [["Rześko", "Breezy"], ["Burzowo", "Stormy"], ["Mgliście", "Foggy"], ["Słonecznie", "Sunny"], ["Deszczowo", "Rainy"], ["Wietrznie", "Windy"], ["Mżawka", "Misty"], ["Lodowato", "Icy"], ["Ulewa", "Showery"], ["Mocna burza","Thundery"]] : ["Breezy", "Stormy", "Foggy", "Sunny", "Rainy", "Windy", "Misty", "Icy", "Showery", "Thundery"]
     end
 
     def sex

@@ -1,8 +1,13 @@
 class SelfEsteem < ActiveRecord::Base
   belongs_to :personal_datum
+  has_one :result
 
   validates :alcohol, :tabacco, :drugs, :walking_time_per_day, :jogging_time_per_day, :gym_workout_time_per_day, :swimming_time_per_day, :wholesome_food_per_day, :junk_food_per_day, :weather, :season, :self_esteem, presence: true
   validates :tabacco, :drugs, :self_esteem, numericality: { only_integer: true }
   validates :alcohol, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 20 }
   validates :swimming_time_per_day, :walking_time_per_day, :jogging_time_per_day, :gym_workout_time_per_day, :wholesome_food_per_day, :junk_food_per_day, numericality: { only_integer: true }
+
+  def to_array
+    [self.alcohol, self.tabacco, self.drugs, self.walking_time_per_day, self.jogging_time_per_day, self.gym_workout_time_per_day, self.swimming_time_per_day, self.wholesome_food_per_day, self.junk_food_per_day, self.weather, self.season, self.self_esteem]
+  end
 end
