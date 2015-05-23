@@ -88,6 +88,8 @@ namespace :classify do
     csvloader.setSource(bais)
     data = Rjb::import("weka.core.Instances").new(csvloader.getDataSet())
     distance = Rjb::import("weka.core.EuclideanDistance").new(data)
+    man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
+    cheb_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
     # p distance.distance(data.firstInstance, data.lastInstance)
     # p distance.getRanges
     results = Hash.new
@@ -96,6 +98,36 @@ namespace :classify do
       data.numInstances.times do |inst2|
         break if i == j
         results[[i,j]] = distance.distance(data.instance(inst), data.instance(inst2))
+        # p results[[i,j]]
+        j = j + 1
+      end
+      i = i + 1
+      j = 1
+    end
+
+    p results
+
+    results = Hash.new
+    i, j = 1, 1
+    data.numInstances.times do |inst|
+      data.numInstances.times do |inst2|
+        break if i == j
+        results[[i,j]] = man_distance.distance(data.instance(inst), data.instance(inst2))
+        # p results[[i,j]]
+        j = j + 1
+      end
+      i = i + 1
+      j = 1
+    end
+
+    p results
+
+    results = Hash.new
+    i, j = 1, 1
+    data.numInstances.times do |inst|
+      data.numInstances.times do |inst2|
+        break if i == j
+        results[[i,j]] = cheb_distance.distance(data.instance(inst), data.instance(inst2))
         # p results[[i,j]]
         j = j + 1
       end
