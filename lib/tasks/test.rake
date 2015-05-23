@@ -40,7 +40,7 @@ namespace :classify do
     csv_string = get_self_esteem_csv
     JStr = Rjb::import('java.lang.String')
     csv_string = JStr.new_with_sig('Ljava.lang.String;', csv_string)
-    p app.run(csv_string)
+    p app.runAll(csv_string)
   end
 
   desc 'CSV test'
