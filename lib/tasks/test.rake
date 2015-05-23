@@ -89,12 +89,21 @@ namespace :classify do
     data = Rjb::import("weka.core.Instances").new(csvloader.getDataSet())
     distance = Rjb::import("weka.core.EuclideanDistance").new(data)
     # p distance.distance(data.firstInstance, data.lastInstance)
-    p distance.getRanges
+    # p distance.getRanges
+    results = Hash.new
+    i, j = 1, 1
     data.numInstances.times do |inst|
       data.numInstances.times do |inst2|
-        p distance.distance(data.instance(inst), data.instance(inst2))
+        break if i == j
+        results[[i,j]] = distance.distance(data.instance(inst), data.instance(inst2))
+        # p results[[i,j]]
+        j = j + 1
       end
+      i = i + 1
+      j = 1
     end
+
+    p results
 
     # se_tmp = SelfEsteem.attribute_names
     # se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
