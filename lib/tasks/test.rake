@@ -33,6 +33,16 @@ namespace :classify do
     puts "\n\nDone!"
   end
 
+  desc 'own jar test'
+  task jar: :environment do
+    Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    app = Rjb::import("com.mgr.classification.App").new()
+    csv_string = get_self_esteem_csv
+    JStr = Rjb::import('java.lang.String')
+    csv_string = JStr.new_with_sig('Ljava.lang.String;', csv_string)
+    p app.run(csv_string)
+  end
+
   desc 'CSV test'
   task test: :environment do
     # pd_tmp = PersonalDatum.attribute_names
@@ -50,32 +60,9 @@ namespace :classify do
     #   p tmp
     # end
 
-    pd_csv_string = CSV.generate do |csv|
-      pd_tmp = PersonalDatum.attribute_names.dup
-      pd_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
-      csv << pd_tmp
-      PersonalDatum.all.each do |pd|
-        tmp = pd.attributes.values.dup
-        tmp.delete_at(0)
-        tmp.delete_at(9)
-        tmp.delete_at(9)
-        csv << tmp
-      end
-    end
+    pd_csv_string = get_personal_data_csv
 
-    se_csv_string = CSV.generate do |csv|
-      se_tmp = SelfEsteem.attribute_names.dup
-      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
-      csv << se_tmp
-      SelfEsteem.all.each do |se|
-        tmp = se.attributes.values.dup
-        tmp.delete_at(0)
-        tmp.delete_at(0)
-        tmp.delete_at(12)
-        tmp.delete_at(12)
-        csv << tmp
-      end
-    end
+    se_csv_string = get_self_esteem_csv
     # p pd_csv_string
     # p se_csv_string
 
@@ -182,6 +169,39 @@ namespace :classify do
   end
 
   private
+
+  def get_personal_data_csv()
+    pd_csv_string = CSV.generate do |csv|
+      pd_tmp = PersonalDatum.attribute_names.dup
+      pd_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << pd_tmp
+      PersonalDatum.all.each do |pd|
+        tmp = pd.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(9)
+        tmp.delete_at(9)
+        csv << tmp
+      end
+    end
+    pd_csv_string
+  end
+
+  def get_self_esteem_csv()
+    se_csv_string = CSV.generate do |csv|
+      se_tmp = SelfEsteem.attribute_names.dup
+      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << se_tmp
+      SelfEsteem.all.each do |se|
+        tmp = se.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(0)
+        tmp.delete_at(12)
+        tmp.delete_at(12)
+        csv << tmp
+      end
+    end
+    se_csv_string
+  end
 
   def classify(data_set, labels, ex)
     data_set = Ai4r::Data::DataSet.new :data_items=>data_set, :data_labels=>labels
