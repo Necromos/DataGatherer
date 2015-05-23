@@ -33,6 +33,78 @@ namespace :classify do
     puts "\n\nDone!"
   end
 
+  desc 'CSV test'
+  task test: :environment do
+    # pd_tmp = PersonalDatum.attribute_names
+    # pd_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+    # p pd_tmp
+    # pd_tmp.each do |name|
+    #   p name
+    # end
+
+    # PersonalDatum.all.each do |pd|
+    #   tmp = pd.attributes.values.dup
+    #   tmp.delete_at(0)
+    #   tmp.delete_at(9)
+    #   tmp.delete_at(9)
+    #   p tmp
+    # end
+
+    pd_csv_string = CSV.generate do |csv|
+      pd_tmp = PersonalDatum.attribute_names.dup
+      pd_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << pd_tmp
+      PersonalDatum.all.each do |pd|
+        tmp = pd.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(9)
+        tmp.delete_at(9)
+        csv << tmp
+      end
+    end
+
+    se_csv_string = CSV.generate do |csv|
+      se_tmp = SelfEsteem.attribute_names.dup
+      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << se_tmp
+      SelfEsteem.all.each do |se|
+        tmp = se.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(0)
+        tmp.delete_at(12)
+        tmp.delete_at(12)
+        csv << tmp
+      end
+    end
+    # p pd_csv_string
+    # p se_csv_string
+
+    Rjb::load(Rails.root.join("weka.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    JStr = Rjb::import('java.lang.String')
+    csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
+    bais = Rjb::import("java.io.ByteArrayInputStream")
+    bais = bais.new(csv_string.getBytes("UTF-8"))
+    csvloader = Rjb::import("weka.core.converters.CSVLoader").new()
+    csvloader.setSource(bais)
+    data = Rjb::import("weka.core.Instances").new(csvloader.getDataSet())
+    distance = Rjb::import("weka.core.EuclideanDistance").new(data)
+    # p distance.distance(data.firstInstance, data.lastInstance)
+    p distance.getRanges
+    data.numInstances.times do |inst|
+      data.numInstances.times do |inst2|
+        p distance.distance(data.instance(inst), data.instance(inst2))
+      end
+    end
+
+    # se_tmp = SelfEsteem.attribute_names
+    # se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+    # p se_tmp
+    # se_tmp.each do |name|
+    #   p name
+    # end
+
+  end
+
   desc 'Weka time!'
   task weka: :environment do
     Rjb::load(Rails.root.join("weka.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
@@ -57,11 +129,15 @@ namespace :classify do
     data = Filter.useFilter(data, convert)
     p data.toString
     classifier = Rjb::import("weka.classifiers.bayes.NaiveBayes").new
+    instance = Rjb::import("weka.core.Instance").new(data.firstInstance)
+    data.delete(0)
+    instance.setDataset(data)
     classifier.buildClassifier(data)
-    data.numInstances.times do |instance|
-      pred = classifier.classifyInstance(data.instance(instance))
-      p pred
-    end
+    # data.numInstances.times do |instance|
+    #   pred = classifier.classifyInstance(data.instance(instance))
+    #   p pred
+    # end
+    p classifier.classifyInstance(instance)
   end
 
   private
