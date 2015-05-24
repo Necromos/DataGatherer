@@ -37,7 +37,7 @@ namespace :classify do
   task first_test: :environment do
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     app = Rjb::import("com.mgr.classification.App").new()
-    csv_string = get_self_esteem_csv
+    csv_string = get_all_self_esteem_csv
     JStr = Rjb::import('java.lang.String')
     csv_string = JStr.new_with_sig('Ljava.lang.String;', csv_string)
     p app.runAll(csv_string)
@@ -46,9 +46,8 @@ namespace :classify do
   desc 'distance test'
   task second_test: :environment do
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
-    pd_csv_string = get_personal_data_csv
+    pd_csv_string = get_all_personal_data_csv
     app = Rjb::import("com.mgr.classification.App").new()
-    JStr = Rjb::import('java.lang.String')
     csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
     bais = Rjb::import("java.io.ByteArrayInputStream")
     bais = bais.new(csv_string.getBytes("UTF-8"))
@@ -147,7 +146,7 @@ namespace :classify do
     results
   end
 
-  def get_personal_data_csv()
+  def get_all_personal_data_csv()
     pd_csv_string = CSV.generate do |csv|
       pd_tmp = PersonalDatum.attribute_names.dup
       pd_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
@@ -163,7 +162,7 @@ namespace :classify do
     pd_csv_string
   end
 
-  def get_self_esteem_csv()
+  def get_all_self_esteem_csv()
     se_csv_string = CSV.generate do |csv|
       se_tmp = SelfEsteem.attribute_names.dup
       se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
