@@ -47,6 +47,7 @@ namespace :classify do
   task second_test: :environment do
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     pd_csv_string = get_all_personal_data_csv
+    JStr = Rjb::import('java.lang.String')
     app = Rjb::import("com.mgr.classification.App").new()
     csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
     bais = Rjb::import("java.io.ByteArrayInputStream")
@@ -57,7 +58,6 @@ namespace :classify do
     distance = Rjb::import("weka.core.EuclideanDistance").new(data)
     man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
     cheb_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
-    JStr = Rjb::import('java.lang.String')
     results = distance(data, distance)
     p "Euclidean"
     i = PersonalDatum.all.count
