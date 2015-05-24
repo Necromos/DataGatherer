@@ -74,7 +74,50 @@ namespace :classify do
     p che_classification_re
   end
 
+  desc 'cluster test'
+  task fourth_test: :environment do
+    Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    pd_csv_string = get_all_personal_data_csv
+    JStr = Rjb::import('java.lang.String')
+    app = Rjb::import("com.mgr.classification.App").new()
+    csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
+    data = app.convertData(csv_string)
+    ff = Rjb::import("weka.clusterers.FarthestFirst").new()
+    (2..SelfEsteem.all.count/2).each do |n|
+      ff.setOptions(["-N",n.to_s])
+      ff.buildClusterer(data)
+      ff_res = []
+      (1..SelfEsteem.all.count).each do |i|
+        arr = get_self_esteem_csv_by_id(i)
+        elements = get_ids_from_clusters(ff,data,arr[0])
+        ff_res << classify_with_clustering(app,arr[0],elements,arr[1])
+      end
+      p "FarthestFirst for #{n} clusters"
+      p ff_res
+    end
+  end
+
   private
+
+  def get_ids_from_clusters(clusterer,data,id)
+    res = Hash.new
+    number_of_elements = data.numInstances
+    number_of_elements.times do |i|
+      res[i+1] = clusterer.clusterInstance(data.instance(i))
+    end
+    searched_cluster = res[id]
+    result = []
+    res.each do |index,val|
+      result << index if val == searched_cluster
+    end
+    result
+  end
+
+  def classify_with_clustering(app,id,pdid,to_classify)
+    csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,pdid))
+    csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
+    app.compareTwo(csv_training_string,csv_string_to_classify)
+  end
 
   def filter_and_compute_distance_results_without_one_id(app,id,results,i,max_val,to_classify)
     tmp_res = []
