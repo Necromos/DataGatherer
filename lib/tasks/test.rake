@@ -58,78 +58,78 @@ namespace :classify do
     distance = Rjb::import("weka.core.EuclideanDistance").new(data)
     man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
     cheb_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
-    results = distance(data, distance)
+    count = PersonalDatum.all.count
     p "Euclidean"
-    i = PersonalDatum.all.count
-    (1..i).each do |c|
-      tmp_res = []
-      results.each do |key,val|
-        tmp_res << key[1] if key[0] == c && val < 1.5
-      end
-      p tmp_res
-      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
-      p app.runAll(csv_string)
-    end
-    results = distance(data, man_distance)
+    results = distance(data, distance)
+    filter_and_compute_distance_results(app,count,results,1.5)
     p "Manhattan"
-    (1..i).each do |c|
-      tmp_res = []
-      results.each do |key,val|
-        tmp_res << key[1] if key[0] == c && val < 2.0
-      end
-      p tmp_res
-      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
-      p app.runAll(csv_string)
-    end
-    results = distance(data, cheb_distance)
+    results = distance(data, man_distance)
+    filter_and_compute_distance_results(app,count,results,2)
     p "Chebyshev"
-    (1..i).each do |c|
-      tmp_res = []
-      results.each do |key,val|
-        tmp_res << key[1] if key[0] == c && val < 1.0
-      end
-      p tmp_res
-      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
-      p app.runAll(csv_string)
-    end
+    results = distance(data, cheb_distance)
+    filter_and_compute_distance_results(app,count,results,1)
   end
 
-  desc 'Weka time!'
-  task weka: :environment do
-    Rjb::load(Rails.root.join("weka.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+  desc 'Third test'
+  task third_test: :environment do
+    Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    pd_csv_string = get_all_personal_data_csv
     JStr = Rjb::import('java.lang.String')
-    csv_string = CSV.generate do |csv|
-      csv << SelfEsteem.attribute_names
-      SelfEsteem.all.each do |se|
-        csv << se.attributes.values
-      end
-    end
-    csv_string = JStr.new_with_sig('Ljava.lang.String;', csv_string)
+    app = Rjb::import("com.mgr.classification.App").new()
+    csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
     bais = Rjb::import("java.io.ByteArrayInputStream")
     bais = bais.new(csv_string.getBytes("UTF-8"))
     csvloader = Rjb::import("weka.core.converters.CSVLoader").new()
     csvloader.setSource(bais)
     data = Rjb::import("weka.core.Instances").new(csvloader.getDataSet())
-    data.setClassIndex( data.numAttributes - 3 )
-    convert = Rjb::import("weka.filters.unsupervised.attribute.NumericToNominal").new()
-    convert.setOptions(["-R","14"])
-    convert.setInputFormat(data)
-    Filter = Rjb::import("weka.filters.Filter")
-    data = Filter.useFilter(data, convert)
-    p data.toString
-    classifier = Rjb::import("weka.classifiers.bayes.NaiveBayes").new
-    instance = Rjb::import("weka.core.Instance").new(data.firstInstance)
-    data.delete(0)
-    instance.setDataset(data)
-    classifier.buildClassifier(data)
-    # data.numInstances.times do |instance|
-    #   pred = classifier.classifyInstance(data.instance(instance))
-    #   p pred
-    # end
-    p classifier.classifyInstance(instance)
+    euc_distance = Rjb::import("weka.core.EuclideanDistance").new(data)
+    man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
+    che_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
+    count = PersonalDatum.all.count
+    euc_results = distance(data, euc_distance)
+    man_results = distance(data, man_distance)
+    che_results = distance(data, che_distance)
+    euc_classifiation_res, man_classification_res, che_classification_re = [], [], []
+    (1..SelfEsteem.all.count).each do |j|
+      arr = get_self_esteem_csv_by_id(j)
+      euc_classifiation_res << filter_and_compute_distance_results_without_one_id(app,arr[0],euc_results,count,1.5,arr[1])
+      man_classification_res << filter_and_compute_distance_results_without_one_id(app,arr[0],man_results,count,2.0,arr[1])
+      che_classification_re << filter_and_compute_distance_results_without_one_id(app,arr[0],che_results,count,1.0,arr[1])
+    end
+    p "Euclidean"
+    p euc_classifiation_res
+    p "Manhattan"
+    p man_classification_res
+    p "Chebyshev"
+    p che_classification_re
   end
 
   private
+
+  def filter_and_compute_distance_results_without_one_id(app,id,results,i,max_val,to_classify)
+    tmp_res = []
+    results.each do |key,val|
+      tmp_res << key[1] if key[0] == id && val < max_val
+    end
+    # p tmp_res
+    csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,tmp_res))
+    # p csv_training_string.toString
+    csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
+    # p csv_string_to_classify.toString
+    app.compareTwo(csv_training_string,csv_string_to_classify)
+  end
+
+  def filter_and_compute_distance_results(app,i,results,max_val)
+    (1..i).each do |c|
+      tmp_res = []
+      results.each do |key,val|
+        tmp_res << key[1] if key[0] == c && val < max_val
+      end
+      p tmp_res
+      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
+      p app.runAll(csv_string)
+    end
+  end
 
   def distance(data, distance)
     results = Hash.new
@@ -177,6 +177,55 @@ namespace :classify do
       end
     end
     se_csv_string
+  end
+
+  def get_self_esteem_without_id_with_pdid(id,pdid)
+    se_csv_string = CSV.generate do |csv|
+      se_tmp = SelfEsteem.attribute_names.dup
+      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << se_tmp
+      SelfEsteem.where.not(id: id).where(personal_datum_id: pdid).each do |se|
+        tmp = se.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(0)
+        tmp.delete_at(12)
+        tmp.delete_at(12)
+        csv << tmp
+      end
+    end
+    se_csv_string
+  end
+
+  def get_self_esteem_without_id(id)
+    se_csv_string = CSV.generate do |csv|
+      se_tmp = SelfEsteem.attribute_names.dup
+      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << se_tmp
+      SelfEsteem.where.not(id).each do |se|
+        tmp = se.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(0)
+        tmp.delete_at(12)
+        tmp.delete_at(12)
+        csv << tmp
+      end
+    end
+    se_csv_string
+  end
+
+  def get_self_esteem_csv_by_id(id)
+    se_csv_string = CSV.generate do |csv|
+      se_tmp = SelfEsteem.attribute_names.dup
+      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << se_tmp
+      tmp = SelfEsteem.find(id).attributes.values.dup
+      tmp.delete_at(0)
+      tmp.delete_at(0)
+      tmp.delete_at(12)
+      tmp.delete_at(12)
+      csv << tmp
+    end
+    [SelfEsteem.find(id).personal_datum_id,se_csv_string]
   end
 
   def get_self_esteem_csv(ids)
