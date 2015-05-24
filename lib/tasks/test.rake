@@ -33,8 +33,8 @@ namespace :classify do
     puts "\n\nDone!"
   end
 
-  desc 'own jar test'
-  task jar: :environment do
+  desc 'no personalization test'
+  task first_test: :environment do
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     app = Rjb::import("com.mgr.classification.App").new()
     csv_string = get_self_esteem_csv
@@ -43,30 +43,11 @@ namespace :classify do
     p app.runAll(csv_string)
   end
 
-  desc 'CSV test'
-  task test: :environment do
-    # pd_tmp = PersonalDatum.attribute_names
-    # pd_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
-    # p pd_tmp
-    # pd_tmp.each do |name|
-    #   p name
-    # end
-
-    # PersonalDatum.all.each do |pd|
-    #   tmp = pd.attributes.values.dup
-    #   tmp.delete_at(0)
-    #   tmp.delete_at(9)
-    #   tmp.delete_at(9)
-    #   p tmp
-    # end
-
+  desc 'distance test'
+  task second_test: :environment do
+    Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     pd_csv_string = get_personal_data_csv
-
-    se_csv_string = get_self_esteem_csv
-    # p pd_csv_string
-    # p se_csv_string
-
-    Rjb::load(Rails.root.join("weka.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    app = Rjb::import("com.mgr.classification.App").new()
     JStr = Rjb::import('java.lang.String')
     csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
     bais = Rjb::import("java.io.ByteArrayInputStream")
@@ -77,60 +58,41 @@ namespace :classify do
     distance = Rjb::import("weka.core.EuclideanDistance").new(data)
     man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
     cheb_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
-    # p distance.distance(data.firstInstance, data.lastInstance)
-    # p distance.getRanges
-    results = Hash.new
-    i, j = 1, 1
-    data.numInstances.times do |inst|
-      data.numInstances.times do |inst2|
-        break if i == j
-        results[[i,j]] = distance.distance(data.instance(inst), data.instance(inst2))
-        # p results[[i,j]]
-        j = j + 1
+    JStr = Rjb::import('java.lang.String')
+    results = distance(data, distance)
+    p "Euclidean"
+    i = PersonalDatum.all.count
+    (1..i).each do |c|
+      tmp_res = []
+      results.each do |key,val|
+        tmp_res << key[1] if key[0] == c && val < 1.5
       end
-      i = i + 1
-      j = 1
+      p tmp_res
+      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
+      p app.runAll(csv_string)
     end
-
-    p results
-
-    results = Hash.new
-    i, j = 1, 1
-    data.numInstances.times do |inst|
-      data.numInstances.times do |inst2|
-        break if i == j
-        results[[i,j]] = man_distance.distance(data.instance(inst), data.instance(inst2))
-        # p results[[i,j]]
-        j = j + 1
+    results = distance(data, man_distance)
+    p "Manhattan"
+    (1..i).each do |c|
+      tmp_res = []
+      results.each do |key,val|
+        tmp_res << key[1] if key[0] == c && val < 2.0
       end
-      i = i + 1
-      j = 1
+      p tmp_res
+      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
+      p app.runAll(csv_string)
     end
-
-    p results
-
-    results = Hash.new
-    i, j = 1, 1
-    data.numInstances.times do |inst|
-      data.numInstances.times do |inst2|
-        break if i == j
-        results[[i,j]] = cheb_distance.distance(data.instance(inst), data.instance(inst2))
-        # p results[[i,j]]
-        j = j + 1
+    results = distance(data, cheb_distance)
+    p "Chebyshev"
+    (1..i).each do |c|
+      tmp_res = []
+      results.each do |key,val|
+        tmp_res << key[1] if key[0] == c && val < 1.0
       end
-      i = i + 1
-      j = 1
+      p tmp_res
+      csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
+      p app.runAll(csv_string)
     end
-
-    p results
-
-    # se_tmp = SelfEsteem.attribute_names
-    # se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
-    # p se_tmp
-    # se_tmp.each do |name|
-    #   p name
-    # end
-
   end
 
   desc 'Weka time!'
@@ -170,6 +132,21 @@ namespace :classify do
 
   private
 
+  def distance(data, distance)
+    results = Hash.new
+    i, j = 1, 1
+    data.numInstances.times do |inst|
+      data.numInstances.times do |inst2|
+        # break if i == j
+        results[[i,j]] = distance.distance(data.instance(inst), data.instance(inst2))
+        j = j + 1
+      end
+      i = i + 1
+      j = 1
+    end
+    results
+  end
+
   def get_personal_data_csv()
     pd_csv_string = CSV.generate do |csv|
       pd_tmp = PersonalDatum.attribute_names.dup
@@ -192,6 +169,23 @@ namespace :classify do
       se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
       csv << se_tmp
       SelfEsteem.all.each do |se|
+        tmp = se.attributes.values.dup
+        tmp.delete_at(0)
+        tmp.delete_at(0)
+        tmp.delete_at(12)
+        tmp.delete_at(12)
+        csv << tmp
+      end
+    end
+    se_csv_string
+  end
+
+  def get_self_esteem_csv(ids)
+    se_csv_string = CSV.generate do |csv|
+      se_tmp = SelfEsteem.attribute_names.dup
+      se_tmp.delete_if { |x| x["id"] != nil || x["_at"] != nil }
+      csv << se_tmp
+      SelfEsteem.where(personal_datum_id: ids).each do |se|
         tmp = se.attributes.values.dup
         tmp.delete_at(0)
         tmp.delete_at(0)
