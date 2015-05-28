@@ -106,19 +106,19 @@ namespace :classify do
     end_res = Hash.new
     end_res["NB"] = 0
     end_res["BN"] = 0
+    end_res["FT"] = 0
     end_res["RF"] = 0
-    end_res["CC"] = 0
     res.each do |r|
       end_res["NB"] = end_res["NB"] + 1 if r[0] == r[4]
       end_res["BN"] = end_res["BN"] + 1 if r[1] == r[4]
-      end_res["RF"] = end_res["RF"] + 1 if r[2] == r[4]
-      end_res["CC"] = end_res["CC"] + 1 if r[3] == r[4]
+      end_res["FT"] = end_res["FT"] + 1 if r[2] == r[4]
+      end_res["RF"] = end_res["RF"] + 1 if r[3] == r[4]
     end
     p end_res
     p "Naive Bayes %: "+((end_res["NB"] / res.length.to_f) * 100.0).to_s
     p "Bayes Network %: "+((end_res["BN"] / res.length.to_f) * 100.0).to_s
-    p "Random Fores %: "+((end_res["RF"] / res.length.to_f) * 100.0).to_s
-    p "CC %: "+((end_res["CC"] / res.length.to_f) * 100.0).to_s
+    p "Functional Trees %: "+((end_res["FT"] / res.length.to_f) * 100.0).to_s
+    p "Random Forest %: "+((end_res["RF"] / res.length.to_f) * 100.0).to_s
   end
 
   def get_ids_from_clusters(clusterer,data,id)
