@@ -10,7 +10,7 @@ namespace :classify do
       to_classify = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv_by_id(j)[1])
       res << app.compareTwo(training, to_classify)
     end
-    p res
+    print_percent_results(res)
   end
 
   desc 'distance test'
@@ -67,11 +67,14 @@ namespace :classify do
       che_classification_re << filter_and_compute_distance_results_without_one_id(app,arr[0],che_results,count,1.0,arr[1])
     end
     p "Euclidean"
-    p euc_classifiation_res
+    # p euc_classifiation_res
+    print_percent_results(euc_classifiation_res)
     p "Manhattan"
-    p man_classification_res
+    # p man_classification_res
+    print_percent_results(man_classification_res)
     p "Chebyshev"
-    p che_classification_re
+    # p che_classification_re
+    print_percent_results(che_classification_re)
   end
 
   desc 'cluster test'
@@ -93,26 +96,30 @@ namespace :classify do
         ff_res << classify_with_clustering(app,arr[0],elements,arr[1])
       end
       p "FarthestFirst for #{n} clusters"
-      end_res = Hash.new
-      end_res["NB"] = 0
-      end_res["BN"] = 0
-      end_res["RF"] = 0
-      end_res["CC"] = 0
-      ff_res.each do |res|
-        end_res["NB"] = end_res["NB"] + 1 if res[0] == res[4]
-        end_res["BN"] = end_res["BN"] + 1 if res[1] == res[4]
-        end_res["RF"] = end_res["RF"] + 1 if res[2] == res[4]
-        end_res["CC"] = end_res["CC"] + 1 if res[3] == res[4]
-      end
-      p end_res
-      p "Naive Bayes %: "+((end_res["NB"] / ff_res.length) * 100).to_s
-      p "Bayes Network %: "+((end_res["BN"] / ff_res.length) * 100).to_s
-      p "Random Fores %: "+((end_res["RF"] / ff_res.length) * 100).to_s
-      p "CC %: "+((end_res["CC"] / ff_res.length) * 100).to_s
+      print_percent_results(ff_res)
     end
   end
 
   private
+
+  def print_percent_results(res)
+    end_res = Hash.new
+    end_res["NB"] = 0
+    end_res["BN"] = 0
+    end_res["RF"] = 0
+    end_res["CC"] = 0
+    res.each do |r|
+      end_res["NB"] = end_res["NB"] + 1 if r[0] == r[4]
+      end_res["BN"] = end_res["BN"] + 1 if r[1] == r[4]
+      end_res["RF"] = end_res["RF"] + 1 if r[2] == r[4]
+      end_res["CC"] = end_res["CC"] + 1 if r[3] == r[4]
+    end
+    p end_res
+    p "Naive Bayes %: "+((end_res["NB"] / res.length.to_f) * 100.0).to_s
+    p "Bayes Network %: "+((end_res["BN"] / res.length.to_f) * 100.0).to_s
+    p "Random Fores %: "+((end_res["RF"] / res.length.to_f) * 100.0).to_s
+    p "CC %: "+((end_res["CC"] / res.length.to_f) * 100.0).to_s
+  end
 
   def get_ids_from_clusters(clusterer,data,id)
     res = Hash.new
