@@ -99,10 +99,10 @@ namespace :classify do
       end_res["RF"] = 0
       end_res["CC"] = 0
       ff_res.each do |res|
-        end_res["NB"] = end_res["NB"] + res[0] if res[0] == res[4]
-        end_res["BN"] = end_res["BN"] + res[1] if res[1] == res[4]
-        end_res["RF"] = end_res["RF"] + res[2] if res[2] == res[4]
-        end_res["CC"] = end_res["CC"] + res[3] if res[3] == res[4]
+        end_res["NB"] = end_res["NB"] + 1 if res[0] == res[4]
+        end_res["BN"] = end_res["BN"] + 1 if res[1] == res[4]
+        end_res["RF"] = end_res["RF"] + 1 if res[2] == res[4]
+        end_res["CC"] = end_res["CC"] + 1 if res[3] == res[4]
       end
       p end_res
       p "Naive Bayes %: "+((end_res["NB"] / ff_res.length) * 100).to_s
