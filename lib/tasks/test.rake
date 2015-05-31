@@ -19,7 +19,7 @@ namespace :classify do
     app = Rjb::import("com.mgr.classification.App").new()
     JStr = Rjb::import('java.lang.String')
     data = JStr.new_with_sig('Ljava.lang.String;', get_all_self_esteem_csv())
-    tmp = app.activeApproach(data, 10)
+    tmp = app.activeApproach(data, 10, 10)
     before = []
     after = []
     tmp.each_with_index do |value,index|
