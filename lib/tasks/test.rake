@@ -13,31 +13,26 @@ namespace :classify do
     print_percent_results(res)
   end
 
-  desc 'distance test'
+  desc 'active test'
   task second_test: :environment do
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
-    pd_csv_string = get_all_personal_data_csv
-    JStr = Rjb::import('java.lang.String')
     app = Rjb::import("com.mgr.classification.App").new()
-    csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
-    bais = Rjb::import("java.io.ByteArrayInputStream")
-    bais = bais.new(csv_string.getBytes("UTF-8"))
-    csvloader = Rjb::import("weka.core.converters.CSVLoader").new()
-    csvloader.setSource(bais)
-    data = Rjb::import("weka.core.Instances").new(csvloader.getDataSet())
-    distance = Rjb::import("weka.core.EuclideanDistance").new(data)
-    man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
-    cheb_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
-    count = PersonalDatum.all.count
-    p "Euclidean"
-    results = distance(data, distance)
-    filter_and_compute_distance_results(app,count,results,1.5)
-    p "Manhattan"
-    results = distance(data, man_distance)
-    filter_and_compute_distance_results(app,count,results,2)
-    p "Chebyshev"
-    results = distance(data, cheb_distance)
-    filter_and_compute_distance_results(app,count,results,1)
+    JStr = Rjb::import('java.lang.String')
+    data = JStr.new_with_sig('Ljava.lang.String;', get_all_self_esteem_csv())
+    tmp = app.activeApproach(data)
+    before = []
+    after = []
+    tmp.each_with_index do |value,index|
+      before << value if index % 2 == 0
+      after << value if index % 2 == 1
+    end
+    (0..before.length-1).each do |i|
+      p "#{i} test run results:"
+      p "Before:"
+      print_percent_results before[i]
+      p "After:"
+      print_percent_results after[i]
+    end
   end
 
   desc 'Third test'
@@ -109,10 +104,10 @@ namespace :classify do
     end_res["FT"] = 0
     end_res["RF"] = 0
     res.each do |r|
-      end_res["NB"] = end_res["NB"] + 1 if r[0] == r[4]
-      end_res["BN"] = end_res["BN"] + 1 if r[1] == r[4]
-      end_res["FT"] = end_res["FT"] + 1 if r[2] == r[4]
-      end_res["RF"] = end_res["RF"] + 1 if r[3] == r[4]
+      end_res["NB"] = end_res["NB"] + 1 if r[0] == r[4] && r[4] != -1.0
+      end_res["BN"] = end_res["BN"] + 1 if r[1] == r[4] && r[4] != -1.0
+      end_res["FT"] = end_res["FT"] + 1 if r[2] == r[4] && r[4] != -1.0
+      end_res["RF"] = end_res["RF"] + 1 if r[3] == r[4] && r[4] != -1.0
     end
     p end_res
     p "Naive Bayes %: "+((end_res["NB"] / res.length.to_f) * 100.0).to_s
