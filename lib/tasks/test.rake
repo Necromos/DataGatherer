@@ -26,13 +26,37 @@ namespace :classify do
       before << value if index % 2 == 0
       after << value if index % 2 == 1
     end
+    before_res = Hash.new
+    after_res = Hash.new
+    before_res["NB"], after_res["NB"] = 0, 0
+    before_res["BN"], after_res["BN"] = 0, 0
+    before_res["FT"], after_res["FT"] = 0, 0
+    before_res["RF"], after_res["RF"] = 0, 0
+    before_res["count"], after_res["count"] = 0, 0
     (0..before.length-1).each do |i|
-      p "#{i} test run results:"
-      p "Before:"
-      print_percent_results before[i]
-      p "After:"
-      print_percent_results after[i]
+      tmp = print_percent_results before[i]
+      before_res["NB"] = tmp["NB"] + before_res["NB"]
+      before_res["BN"] = tmp["BN"] + before_res["BN"]
+      before_res["FT"] = tmp["FT"] + before_res["FT"]
+      before_res["RF"] = tmp["RF"] + before_res["RF"]
+      before_res["count"] = tmp["count"] + before_res["count"]
+      tmp = print_percent_results after[i]
+      after_res["NB"] = tmp["NB"] + after_res["NB"]
+      after_res["BN"] = tmp["BN"] + after_res["BN"]
+      after_res["FT"] = tmp["FT"] + after_res["FT"]
+      after_res["RF"] = tmp["RF"] + after_res["RF"]
+      after_res["count"] = tmp["count"] + after_res["count"]
     end
+    p before_res
+    p "Naive Bayes %: "+((before_res["NB"] / before_res["count"].to_f) * 100.0).to_s
+    p "Bayes Network %: "+((before_res["BN"] / before_res["count"].to_f) * 100.0).to_s
+    p "Functional Trees %: "+((before_res["FT"] / before_res["count"].to_f) * 100.0).to_s
+    p "Random Forest %: "+((before_res["RF"] / before_res["count"].to_f) * 100.0).to_s
+    p after_res
+    p "Naive Bayes %: "+((after_res["NB"] / after_res["count"].to_f) * 100.0).to_s
+    p "Bayes Network %: "+((after_res["BN"] / after_res["count"].to_f) * 100.0).to_s
+    p "Functional Trees %: "+((after_res["FT"] / after_res["count"].to_f) * 100.0).to_s
+    p "Random Forest %: "+((after_res["RF"] / after_res["count"].to_f) * 100.0).to_s
   end
 
   desc 'Third test'
@@ -103,17 +127,20 @@ namespace :classify do
     end_res["BN"] = 0
     end_res["FT"] = 0
     end_res["RF"] = 0
+    end_res["count"] = 0
     res.each do |r|
       end_res["NB"] = end_res["NB"] + 1 if r[0] == r[4] && r[4] != -1.0
       end_res["BN"] = end_res["BN"] + 1 if r[1] == r[4] && r[4] != -1.0
       end_res["FT"] = end_res["FT"] + 1 if r[2] == r[4] && r[4] != -1.0
       end_res["RF"] = end_res["RF"] + 1 if r[3] == r[4] && r[4] != -1.0
+      end_res["count"] = end_res["count"] + 1 if r[4] != -1.0
     end
     p end_res
     p "Naive Bayes %: "+((end_res["NB"] / res.length.to_f) * 100.0).to_s
     p "Bayes Network %: "+((end_res["BN"] / res.length.to_f) * 100.0).to_s
     p "Functional Trees %: "+((end_res["FT"] / res.length.to_f) * 100.0).to_s
     p "Random Forest %: "+((end_res["RF"] / res.length.to_f) * 100.0).to_s
+    end_res
   end
 
   def get_ids_from_clusters(clusterer,data,id)
