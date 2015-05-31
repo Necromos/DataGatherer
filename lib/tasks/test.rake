@@ -1,6 +1,8 @@
 namespace :classify do
   desc 'no personalization test'
-  task first_test: :environment do
+  task :first_test, [:discretize] => :environment do |t,args|
+    puts "====================================================="
+    puts "No Personalization test - first test"
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     app = Rjb::import("com.mgr.classification.App").new()
     JStr = Rjb::import('java.lang.String')
@@ -8,18 +10,21 @@ namespace :classify do
     (1..SelfEsteem.all.count).each do |j|
       training = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id(j))
       to_classify = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv_by_id(j)[1])
-      res << app.compareTwo(training, to_classify)
+      res << app.compareTwo(training, to_classify, to_boolean(args.discretize))
     end
-    print_percent_results(res)
+    print_percent_results(res,true)
+    puts "====================================================="
   end
 
   desc 'active test'
-  task :second_test, [:folds,:runs] => :environment do |t,args|
+  task :second_test, [:folds,:runs,:discretize] => :environment do |t,args|
+    puts "====================================================="
+    puts "ActiveApproach test - second test"
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     app = Rjb::import("com.mgr.classification.App").new()
     JStr = Rjb::import('java.lang.String')
     data = JStr.new_with_sig('Ljava.lang.String;', get_all_self_esteem_csv())
-    tmp = app.activeApproach(data, args.folds.to_i, args.runs.to_i)
+    tmp = app.activeApproach(data, args.folds.to_i, args.runs.to_i, to_boolean(args.discretize))
     before = []
     after = []
     tmp.each_with_index do |value,index|
@@ -34,33 +39,38 @@ namespace :classify do
     before_res["RF"], after_res["RF"] = 0, 0
     before_res["count"], after_res["count"] = 0, 0
     (0..before.length-1).each do |i|
-      tmp = print_percent_results before[i]
+      tmp = print_percent_results(before[i],false)
       before_res["NB"] = tmp["NB"] + before_res["NB"]
       before_res["BN"] = tmp["BN"] + before_res["BN"]
       before_res["FT"] = tmp["FT"] + before_res["FT"]
       before_res["RF"] = tmp["RF"] + before_res["RF"]
       before_res["count"] = tmp["count"] + before_res["count"]
-      tmp = print_percent_results after[i]
+      tmp = print_percent_results(after[i],false)
       after_res["NB"] = tmp["NB"] + after_res["NB"]
       after_res["BN"] = tmp["BN"] + after_res["BN"]
       after_res["FT"] = tmp["FT"] + after_res["FT"]
       after_res["RF"] = tmp["RF"] + after_res["RF"]
       after_res["count"] = tmp["count"] + after_res["count"]
     end
-    p before_res
-    p "Naive Bayes %: "+((before_res["NB"] / before_res["count"].to_f) * 100.0).to_s
-    p "Bayes Network %: "+((before_res["BN"] / before_res["count"].to_f) * 100.0).to_s
-    p "Functional Trees %: "+((before_res["FT"] / before_res["count"].to_f) * 100.0).to_s
-    p "Random Forest %: "+((before_res["RF"] / before_res["count"].to_f) * 100.0).to_s
-    p after_res
-    p "Naive Bayes %: "+((after_res["NB"] / after_res["count"].to_f) * 100.0).to_s
-    p "Bayes Network %: "+((after_res["BN"] / after_res["count"].to_f) * 100.0).to_s
-    p "Functional Trees %: "+((after_res["FT"] / after_res["count"].to_f) * 100.0).to_s
-    p "Random Forest %: "+((after_res["RF"] / after_res["count"].to_f) * 100.0).to_s
+    puts "Before active approach with #{args.folds} folds and after #{args.runs} runs"
+    puts before_res
+    puts "Naive Bayes %: "+((before_res["NB"] / before_res["count"].to_f) * 100.0).to_s
+    puts "Bayes Network %: "+((before_res["BN"] / before_res["count"].to_f) * 100.0).to_s
+    puts "Functional Trees %: "+((before_res["FT"] / before_res["count"].to_f) * 100.0).to_s
+    puts "Random Forest %: "+((before_res["RF"] / before_res["count"].to_f) * 100.0).to_s
+    puts "After active approach with #{args.folds} folds and after #{args.runs} runs"
+    puts after_res
+    puts "Naive Bayes %: "+((after_res["NB"] / after_res["count"].to_f) * 100.0).to_s
+    puts "Bayes Network %: "+((after_res["BN"] / after_res["count"].to_f) * 100.0).to_s
+    puts "Functional Trees %: "+((after_res["FT"] / after_res["count"].to_f) * 100.0).to_s
+    puts "Random Forest %: "+((after_res["RF"] / after_res["count"].to_f) * 100.0).to_s
+    puts "====================================================="
   end
 
-  desc 'Third test'
-  task third_test: :environment do
+  desc 'distance test'
+  task :third_test,[:discretize] => :environment do |t,args|
+    puts "====================================================="
+    puts "Distance test - third test"
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     pd_csv_string = get_all_personal_data_csv
     JStr = Rjb::import('java.lang.String')
@@ -79,25 +89,26 @@ namespace :classify do
     man_results = distance(data, man_distance)
     che_results = distance(data, che_distance)
     euc_classifiation_res, man_classification_res, che_classification_re = [], [], []
+    discretize = to_boolean(args.discretize)
     (1..SelfEsteem.all.count).each do |j|
       arr = get_self_esteem_csv_by_id(j)
-      euc_classifiation_res << filter_and_compute_distance_results_without_one_id(app,arr[0],euc_results,count,1.5,arr[1])
-      man_classification_res << filter_and_compute_distance_results_without_one_id(app,arr[0],man_results,count,2.0,arr[1])
-      che_classification_re << filter_and_compute_distance_results_without_one_id(app,arr[0],che_results,count,1.0,arr[1])
+      euc_classifiation_res << filter_and_compute_distance_results_without_one_id(app,arr[0],euc_results,count,1.5,arr[1],discretize)
+      man_classification_res << filter_and_compute_distance_results_without_one_id(app,arr[0],man_results,count,2.0,arr[1],discretize)
+      che_classification_re << filter_and_compute_distance_results_without_one_id(app,arr[0],che_results,count,1.0,arr[1],discretize)
     end
-    p "Euclidean"
-    # p euc_classifiation_res
-    print_percent_results(euc_classifiation_res)
-    p "Manhattan"
-    # p man_classification_res
-    print_percent_results(man_classification_res)
-    p "Chebyshev"
-    # p che_classification_re
-    print_percent_results(che_classification_re)
+    puts "Euclidean"
+    print_percent_results(euc_classifiation_res,true)
+    puts "Manhattan"
+    print_percent_results(man_classification_res,true)
+    puts "Chebyshev"
+    print_percent_results(che_classification_re,true)
+    puts "====================================================="
   end
 
   desc 'cluster test'
-  task fourth_test: :environment do
+  task :fourth_test,[:discretize] => :environment do |t,args|
+    puts "====================================================="
+    puts "Cluster test - fourth test"
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     pd_csv_string = get_all_personal_data_csv
     JStr = Rjb::import('java.lang.String')
@@ -112,16 +123,29 @@ namespace :classify do
       (1..SelfEsteem.all.count).each do |i|
         arr = get_self_esteem_csv_by_id(i)
         elements = get_ids_from_clusters(ff,data,arr[0])
-        ff_res << classify_with_clustering(app,arr[0],elements,arr[1])
+        ff_res << classify_with_clustering(app,arr[0],elements,arr[1],to_boolean(args.discretize))
       end
-      p "FarthestFirst for #{n} clusters"
-      print_percent_results(ff_res)
+      puts "FarthestFirst for #{n} clusters"
+      print_percent_results(ff_res,true)
     end
+    puts "====================================================="
+  end
+
+  desc 'run complete tests'
+  task :run_all, [:folds,:runs,:discretize] => :environment do |t,args|
+    Rake.application.invoke_task("classify:first_test["+(args.discretize)+"]")
+    Rake.application.invoke_task("classify:second_test["+(args.folds)+","+(args.runs)+","+(args.discretize)+"]")
+    Rake.application.invoke_task("classify:third_test["+(args.discretize)+"]")
+    Rake.application.invoke_task("classify:fourth_test["+(args.discretize)+"]")
   end
 
   private
 
-  def print_percent_results(res)
+  def to_boolean(str)
+    str == 'true'
+  end
+
+  def print_percent_results(res,show)
     end_res = Hash.new
     end_res["NB"] = 0
     end_res["BN"] = 0
@@ -135,11 +159,13 @@ namespace :classify do
       end_res["RF"] = end_res["RF"] + 1 if r[3] == r[4] && r[4] != -1.0
       end_res["count"] = end_res["count"] + 1 if r[4] != -1.0
     end
-    p end_res
-    p "Naive Bayes %: "+((end_res["NB"] / res.length.to_f) * 100.0).to_s
-    p "Bayes Network %: "+((end_res["BN"] / res.length.to_f) * 100.0).to_s
-    p "Functional Trees %: "+((end_res["FT"] / res.length.to_f) * 100.0).to_s
-    p "Random Forest %: "+((end_res["RF"] / res.length.to_f) * 100.0).to_s
+    if(show)
+      puts end_res
+      puts "Naive Bayes %: "+((end_res["NB"] / res.length.to_f) * 100.0).to_s
+      puts "Bayes Network %: "+((end_res["BN"] / res.length.to_f) * 100.0).to_s
+      puts "Functional Trees %: "+((end_res["FT"] / res.length.to_f) * 100.0).to_s
+      puts "Random Forest %: "+((end_res["RF"] / res.length.to_f) * 100.0).to_s
+    end
     end_res
   end
 
@@ -157,20 +183,20 @@ namespace :classify do
     result
   end
 
-  def classify_with_clustering(app,id,pdid,to_classify)
+  def classify_with_clustering(app,id,pdid,to_classify,discretize)
     csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,pdid))
     csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
-    app.compareTwo(csv_training_string,csv_string_to_classify)
+    app.compareTwo(csv_training_string,csv_string_to_classify,discretize)
   end
 
-  def filter_and_compute_distance_results_without_one_id(app,id,results,i,max_val,to_classify)
+  def filter_and_compute_distance_results_without_one_id(app,id,results,i,max_val,to_classify,discretize)
     tmp_res = []
     results.each do |key,val|
       tmp_res << key[1] if key[0] == id && val < max_val
     end
     csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,tmp_res))
     csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
-    app.compareTwo(csv_training_string,csv_string_to_classify)
+    app.compareTwo(csv_training_string,csv_string_to_classify,discretize)
   end
 
   def filter_and_compute_distance_results(app,i,results,max_val)
@@ -179,9 +205,9 @@ namespace :classify do
       results.each do |key,val|
         tmp_res << key[1] if key[0] == c && val < max_val
       end
-      p tmp_res
+      puts tmp_res
       csv_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_csv(tmp_res))
-      p app.runAll(csv_string)
+      puts app.runAll(csv_string)
     end
   end
 
