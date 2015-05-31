@@ -14,12 +14,12 @@ namespace :classify do
   end
 
   desc 'active test'
-  task second_test: :environment do
+  task :second_test, [:folds,:runs] => :environment do |t,args|
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
     app = Rjb::import("com.mgr.classification.App").new()
     JStr = Rjb::import('java.lang.String')
     data = JStr.new_with_sig('Ljava.lang.String;', get_all_self_esteem_csv())
-    tmp = app.activeApproach(data, 10, 10)
+    tmp = app.activeApproach(data, args.folds.to_i, args.runs.to_i)
     before = []
     after = []
     tmp.each_with_index do |value,index|
