@@ -31,39 +31,10 @@ namespace :classify do
       before << value if index % 2 == 0
       after << value if index % 2 == 1
     end
-    before_res = Hash.new
-    after_res = Hash.new
-    before_res["NB"], after_res["NB"] = 0, 0
-    before_res["BN"], after_res["BN"] = 0, 0
-    before_res["FT"], after_res["FT"] = 0, 0
-    before_res["RF"], after_res["RF"] = 0, 0
-    before_res["count"], after_res["count"] = 0, 0
-    (0..before.length-1).each do |i|
-      tmp = print_percent_results(before[i],false)
-      before_res["NB"] = tmp["NB"] + before_res["NB"]
-      before_res["BN"] = tmp["BN"] + before_res["BN"]
-      before_res["FT"] = tmp["FT"] + before_res["FT"]
-      before_res["RF"] = tmp["RF"] + before_res["RF"]
-      before_res["count"] = tmp["count"] + before_res["count"]
-      tmp = print_percent_results(after[i],false)
-      after_res["NB"] = tmp["NB"] + after_res["NB"]
-      after_res["BN"] = tmp["BN"] + after_res["BN"]
-      after_res["FT"] = tmp["FT"] + after_res["FT"]
-      after_res["RF"] = tmp["RF"] + after_res["RF"]
-      after_res["count"] = tmp["count"] + after_res["count"]
-    end
-    puts "Before active approach with #{args.folds} folds and after #{args.runs} runs"
-    puts before_res
-    puts "Naive Bayes %: "+((before_res["NB"] / before_res["count"].to_f) * 100.0).to_s
-    puts "Bayes Network %: "+((before_res["BN"] / before_res["count"].to_f) * 100.0).to_s
-    puts "Functional Trees %: "+((before_res["FT"] / before_res["count"].to_f) * 100.0).to_s
-    puts "Random Forest %: "+((before_res["RF"] / before_res["count"].to_f) * 100.0).to_s
-    puts "After active approach with #{args.folds} folds and after #{args.runs} runs"
-    puts after_res
-    puts "Naive Bayes %: "+((after_res["NB"] / after_res["count"].to_f) * 100.0).to_s
-    puts "Bayes Network %: "+((after_res["BN"] / after_res["count"].to_f) * 100.0).to_s
-    puts "Functional Trees %: "+((after_res["FT"] / after_res["count"].to_f) * 100.0).to_s
-    puts "Random Forest %: "+((after_res["RF"] / after_res["count"].to_f) * 100.0).to_s
+    puts "Before active approach"
+    print_percent_results_from_cube_array(before,true,args.folds,args.runs)
+    puts "After active approach"
+    print_percent_results_from_cube_array(after,true,args.folds,args.runs)
     puts "====================================================="
   end
 
@@ -88,20 +59,20 @@ namespace :classify do
     euc_results = distance(data, euc_distance)
     man_results = distance(data, man_distance)
     che_results = distance(data, che_distance)
-    euc_classifiation_res, man_classification_res, che_classification_re = [], [], []
+    euc_classification_res, man_classification_res, che_classification_res = [], [], []
     discretize = to_boolean(args.discretize)
     (1..SelfEsteem.all.count).each do |j|
       arr = get_self_esteem_csv_by_id(j)
-      euc_classifiation_res << filter_and_compute_distance_results_without_one_id(app,arr[0],euc_results,count,1.5,arr[1],discretize)
+      euc_classification_res << filter_and_compute_distance_results_without_one_id(app,arr[0],euc_results,count,1.5,arr[1],discretize)
       man_classification_res << filter_and_compute_distance_results_without_one_id(app,arr[0],man_results,count,2.0,arr[1],discretize)
-      che_classification_re << filter_and_compute_distance_results_without_one_id(app,arr[0],che_results,count,1.0,arr[1],discretize)
+      che_classification_res << filter_and_compute_distance_results_without_one_id(app,arr[0],che_results,count,1.0,arr[1],discretize)
     end
     puts "Euclidean"
-    print_percent_results(euc_classifiation_res,true)
+    print_percent_results(euc_classification_res,true)
     puts "Manhattan"
     print_percent_results(man_classification_res,true)
     puts "Chebyshev"
-    print_percent_results(che_classification_re,true)
+    print_percent_results(che_classification_res,true)
     puts "====================================================="
   end
 
@@ -131,6 +102,44 @@ namespace :classify do
     puts "====================================================="
   end
 
+  desc 'distance test with multiple runs'
+  task :fifth_test,[:runs,:folds,:discretize] => :environment do |t,args|
+    puts "====================================================="
+    puts "Distance test - fifth test"
+    Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    pd_csv_string = get_all_personal_data_csv
+    JStr = Rjb::import('java.lang.String')
+    app = Rjb::import("com.mgr.classification.App").new()
+    csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
+    bais = Rjb::import("java.io.ByteArrayInputStream")
+    bais = bais.new(csv_string.getBytes("UTF-8"))
+    csvloader = Rjb::import("weka.core.converters.CSVLoader").new()
+    csvloader.setSource(bais)
+    data = Rjb::import("weka.core.Instances").new(csvloader.getDataSet())
+    euc_distance = Rjb::import("weka.core.EuclideanDistance").new(data)
+    man_distance = Rjb::import("weka.core.ManhattanDistance").new(data)
+    che_distance = Rjb::import("weka.core.ChebyshevDistance").new(data)
+    count = PersonalDatum.all.count
+    euc_results = distance(data, euc_distance)
+    man_results = distance(data, man_distance)
+    che_results = distance(data, che_distance)
+    euc_classification_res, man_classification_res, che_classification_res = [], [], []
+    discretize = to_boolean(args.discretize)
+    (1..SelfEsteem.all.count).each do |j|
+      arr = get_self_esteem_csv_by_id(j)
+      euc_classification_res << filter_and_compute_distance_results_without_one_id_multiple_times(app,arr[0],euc_results,count,1.5,arr[1],args.folds.to_i,args.runs.to_i,discretize)
+      man_classification_res << filter_and_compute_distance_results_without_one_id_multiple_times(app,arr[0],man_results,count,2.0,arr[1],args.folds.to_i,args.runs.to_i,discretize)
+      che_classification_res << filter_and_compute_distance_results_without_one_id_multiple_times(app,arr[0],che_results,count,1.0,arr[1],args.folds.to_i,args.runs.to_i,discretize)
+    end
+    puts "Euclidean"
+    print_percent_results_from_cube_array(euc_classification_res,true,args.folds,args.runs)
+    puts "Manhattan"
+    print_percent_results_from_cube_array(man_classification_res,true,args.folds,args.runs)
+    puts "Chebyshev"
+    print_percent_results_from_cube_array(che_classification_res,true,args.folds,args.runs)
+    puts "====================================================="
+  end
+
   desc 'run complete tests'
   task :run_all, [:folds,:runs,:discretize] => :environment do |t,args|
     Rake.application.invoke_task("classify:first_test["+(args.discretize)+"]")
@@ -143,6 +152,32 @@ namespace :classify do
 
   def to_boolean(str)
     str == 'true'
+  end
+
+  def print_percent_results_from_cube_array(res,show,folds,runs)
+    end_res = Hash.new
+    end_res["NB"] = 0
+    end_res["BN"] = 0
+    end_res["FT"] = 0
+    end_res["RF"] = 0
+    end_res["count"] = 0
+    (0..res.length-1).each do |i|
+      tmp = print_percent_results(res[i],false)
+      end_res["NB"] = tmp["NB"] + end_res["NB"]
+      end_res["BN"] = tmp["BN"] + end_res["BN"]
+      end_res["FT"] = tmp["FT"] + end_res["FT"]
+      end_res["RF"] = tmp["RF"] + end_res["RF"]
+      end_res["count"] = tmp["count"] + end_res["count"]
+    end
+    if(show)
+      puts end_res
+      puts "Naive Bayes %: "+((end_res["NB"] / end_res["count"].to_f) * 100.0).to_s
+      puts "Bayes Network %: "+((end_res["BN"] / end_res["count"].to_f) * 100.0).to_s
+      puts "Functional Trees %: "+((end_res["FT"] / end_res["count"].to_f) * 100.0).to_s
+      puts "Random Forest %: "+((end_res["RF"] / end_res["count"].to_f) * 100.0).to_s
+      puts "After active approach with #{folds} folds and after #{runs} runs"
+    end
+    end_res
   end
 
   def print_percent_results(res,show)
@@ -197,6 +232,16 @@ namespace :classify do
     csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,tmp_res))
     csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
     app.compareTwo(csv_training_string,csv_string_to_classify,discretize)
+  end
+
+  def filter_and_compute_distance_results_without_one_id_multiple_times(app,id,results,i,max_val,to_classify,folds,runs,discretize)
+    tmp_res = []
+    results.each do |key,val|
+      tmp_res << key[1] if key[0] == id && val < max_val
+    end
+    csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,tmp_res))
+    csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
+    app.compareTwo(csv_training_string,csv_string_to_classify,folds,runs,discretize)
   end
 
   def filter_and_compute_distance_results(app,i,results,max_val)
