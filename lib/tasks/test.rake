@@ -102,8 +102,8 @@ namespace :classify do
     puts "====================================================="
   end
 
-  desc 'distance test with multiple runs'
-  task :fifth_test,[:runs,:folds,:discretize] => :environment do |t,args|
+  desc 'distance test with multiple runs and folds'
+  task :fifth_test,[:folds,:runs,:discretize] => :environment do |t,args|
     puts "====================================================="
     puts "Distance test - fifth test"
     Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
@@ -140,6 +140,32 @@ namespace :classify do
     puts "====================================================="
   end
 
+  desc 'cluster test with multiple runs and folds'
+  task :sixth_test,[:folds,:runs,:discretize] => :environment do |t,args|
+    puts "====================================================="
+    puts "Cluster test - sixth test"
+    Rjb::load(Rails.root.join("classification-1.0.jar").to_s, jvmargs=["-Xmx1000M","-Djava.awt.headless=true"])
+    pd_csv_string = get_all_personal_data_csv
+    JStr = Rjb::import('java.lang.String')
+    app = Rjb::import("com.mgr.classification.App").new()
+    csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
+    data = app.convertData(csv_string)
+    ff = Rjb::import("weka.clusterers.FarthestFirst").new()
+    (2..SelfEsteem.all.count/2).each do |n|
+      ff.setOptions(["-N",n.to_s])
+      ff.buildClusterer(data)
+      ff_res = []
+      (1..SelfEsteem.all.count).each do |i|
+        arr = get_self_esteem_csv_by_id(i)
+        elements = get_ids_from_clusters(ff,data,arr[0])
+        ff_res << classify_with_clustering_multiple_times(app,arr[0],elements,arr[1],args.folds.to_i,args.runs.to_i,to_boolean(args.discretize))
+      end
+      puts "FarthestFirst for #{n} clusters"
+      print_percent_results_from_cube_array(ff_res,true,args.folds,args.runs)
+    end
+    puts "====================================================="
+  end
+
   desc 'run complete tests'
   task :run_all, [:folds,:runs,:discretize] => :environment do |t,args|
     Rake.application.invoke_task("classify:first_test["+(args.discretize)+"]")
@@ -170,12 +196,12 @@ namespace :classify do
       end_res["count"] = tmp["count"] + end_res["count"]
     end
     if(show)
+      puts "Results with #{folds} folds and after #{runs} runs"
       puts end_res
       puts "Naive Bayes %: "+((end_res["NB"] / end_res["count"].to_f) * 100.0).to_s
       puts "Bayes Network %: "+((end_res["BN"] / end_res["count"].to_f) * 100.0).to_s
       puts "Functional Trees %: "+((end_res["FT"] / end_res["count"].to_f) * 100.0).to_s
       puts "Random Forest %: "+((end_res["RF"] / end_res["count"].to_f) * 100.0).to_s
-      puts "After active approach with #{folds} folds and after #{runs} runs"
     end
     end_res
   end
@@ -222,6 +248,12 @@ namespace :classify do
     csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,pdid))
     csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
     app.compareTwo(csv_training_string,csv_string_to_classify,discretize)
+  end
+
+  def classify_with_clustering_multiple_times(app,id,pdid,to_classify,folds,runs,discretize)
+    csv_training_string = JStr.new_with_sig('Ljava.lang.String;', get_self_esteem_without_id_with_pdid(id,pdid))
+    csv_string_to_classify = JStr.new_with_sig('Ljava.lang.String;', to_classify)
+    app.compareTwo(csv_training_string,csv_string_to_classify,folds,runs,discretize)
   end
 
   def filter_and_compute_distance_results_without_one_id(app,id,results,i,max_val,to_classify,discretize)
