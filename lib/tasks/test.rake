@@ -87,7 +87,8 @@ namespace :classify do
     csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
     data = app.convertData(csv_string)
     ff = Rjb::import("weka.clusterers.FarthestFirst").new()
-    (2..SelfEsteem.all.count/2).each do |n|
+    tmp_count = SelfEsteem.all.count
+    [2,tmp_count/2/2,tmp_count/2].each do |n|
       ff.setOptions(["-N",n.to_s])
       ff.buildClusterer(data)
       ff_res = []
@@ -151,7 +152,8 @@ namespace :classify do
     csv_string = JStr.new_with_sig('Ljava.lang.String;', pd_csv_string)
     data = app.convertData(csv_string)
     ff = Rjb::import("weka.clusterers.FarthestFirst").new()
-    (2..SelfEsteem.all.count/2).each do |n|
+    tmp_count = SelfEsteem.all.count
+    [2,tmp_count/2/2,tmp_count/2].each do |n|
       ff.setOptions(["-N",n.to_s])
       ff.buildClusterer(data)
       ff_res = []
